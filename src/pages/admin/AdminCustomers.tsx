@@ -1,4 +1,4 @@
-import { mockUsers } from "@/data/mock";
+import { defaultUsers } from "@/data/defaults";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 
@@ -10,7 +10,7 @@ export default function AdminCustomers() {
         <Table>
           <TableHeader><TableRow><TableHead>Name</TableHead><TableHead>Email</TableHead><TableHead>Role</TableHead><TableHead>Joined</TableHead></TableRow></TableHeader>
           <TableBody>
-            {mockUsers.map((u) => (
+            {defaultUsers.map((u) => (
               <TableRow key={u.id}>
                 <TableCell className="font-medium">{u.name}</TableCell>
                 <TableCell>{u.email}</TableCell>

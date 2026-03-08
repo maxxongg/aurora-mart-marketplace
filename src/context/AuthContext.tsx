@@ -1,6 +1,6 @@
 import { createContext, useContext, useState, ReactNode } from "react";
 import { User, UserRole } from "@/types";
-import { mockUsers } from "@/data/mock";
+import { defaultUsers } from "@/data/defaults";
 
 interface AuthContextType {
   user: User | null;
@@ -19,7 +19,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
 
   const login = async (email: string, _password: string) => {
-    const found = mockUsers.find((u) => u.email === email);
+    const found = defaultUsers.find((u) => u.email === email);
     if (found) {
       setUser(found);
       return true;

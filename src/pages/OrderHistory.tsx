@@ -1,4 +1,4 @@
-import { mockOrders, mockProducts } from "@/data/mock";
+import { useStore } from "@/context/StoreContext";
 import { Badge } from "@/components/ui/badge";
 import { Package } from "lucide-react";
 
@@ -11,11 +11,12 @@ const statusColors: Record<string, string> = {
 };
 
 export default function OrderHistory() {
+  const { orders, products } = useStore();
   return (
     <div className="container mx-auto py-8">
       <h1 className="font-display text-3xl font-bold mb-8">My Orders</h1>
       <div className="space-y-4">
-        {mockOrders.map((order) => (
+        {orders.map((order) => (
           <div key={order.id} className="bg-card border rounded-lg p-6">
             <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
               <div>
@@ -29,7 +30,7 @@ export default function OrderHistory() {
             </div>
             <div className="space-y-2">
               {order.items.map((item) => {
-                const product = mockProducts.find((p) => p.id === item.productId);
+                const product = products.find((p) => p.id === item.productId);
                 return (
                   <div key={item.id} className="flex items-center gap-3 text-sm">
                     {product && <img src={product.image} alt="" className="h-10 w-10 rounded object-cover" />}

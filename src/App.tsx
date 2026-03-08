@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "@/context/AuthContext";
 import { CartProvider } from "@/context/CartContext";
 import { WishlistProvider } from "@/context/WishlistContext";
+import { StoreProvider } from "@/context/StoreContext";
 
 import MainLayout from "@/components/layout/MainLayout";
 import AdminLayout from "@/components/layout/AdminLayout";
@@ -36,6 +37,8 @@ import AdminBanners from "./pages/admin/AdminBanners";
 import AdminOrders from "./pages/admin/AdminOrders";
 import AdminCustomers from "./pages/admin/AdminCustomers";
 import AdminSettings from "./pages/admin/AdminSettings";
+import AdminCoupons from "./pages/admin/AdminCoupons";
+import AdminOffers from "./pages/admin/AdminOffers";
 
 import SellerDashboard from "./pages/seller/SellerDashboard";
 import SellerProducts from "./pages/seller/SellerProducts";
@@ -46,61 +49,61 @@ const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <AuthProvider>
-      <CartProvider>
-        <WishlistProvider>
-          <TooltipProvider>
-            <Toaster />
-            <Sonner />
-            <BrowserRouter>
-              <Routes>
-                {/* Public routes with main layout */}
-                <Route element={<MainLayout />}>
-                  <Route path="/" element={<Index />} />
-                  <Route path="/products" element={<Products />} />
-                  <Route path="/product/:id" element={<ProductDetail />} />
-                  <Route path="/cart" element={<Cart />} />
-                  <Route path="/checkout" element={<Checkout />} />
-                  <Route path="/wishlist" element={<Wishlist />} />
-                  <Route path="/orders" element={<OrderHistory />} />
-                  <Route path="/new-arrivals" element={<NewArrivals />} />
-                  <Route path="/best-sellers" element={<BestSellers />} />
-                  <Route path="/profile" element={<Profile />} />
-                  <Route path="/faq" element={<FAQ />} />
-                  <Route path="/shipping" element={<Shipping />} />
-                  <Route path="/returns" element={<Returns />} />
-                  <Route path="/contact" element={<Contact />} />
-                </Route>
+    <StoreProvider>
+      <AuthProvider>
+        <CartProvider>
+          <WishlistProvider>
+            <TooltipProvider>
+              <Toaster />
+              <Sonner />
+              <BrowserRouter>
+                <Routes>
+                  <Route element={<MainLayout />}>
+                    <Route path="/" element={<Index />} />
+                    <Route path="/products" element={<Products />} />
+                    <Route path="/product/:id" element={<ProductDetail />} />
+                    <Route path="/cart" element={<Cart />} />
+                    <Route path="/checkout" element={<Checkout />} />
+                    <Route path="/wishlist" element={<Wishlist />} />
+                    <Route path="/orders" element={<OrderHistory />} />
+                    <Route path="/new-arrivals" element={<NewArrivals />} />
+                    <Route path="/best-sellers" element={<BestSellers />} />
+                    <Route path="/profile" element={<Profile />} />
+                    <Route path="/faq" element={<FAQ />} />
+                    <Route path="/shipping" element={<Shipping />} />
+                    <Route path="/returns" element={<Returns />} />
+                    <Route path="/contact" element={<Contact />} />
+                  </Route>
 
-                {/* Auth standalone */}
-                <Route path="/auth" element={<Auth />} />
+                  <Route path="/auth" element={<Auth />} />
 
-                {/* Admin panel */}
-                <Route element={<AdminLayout />}>
-                  <Route path="/admin" element={<AdminDashboard />} />
-                  <Route path="/admin/products" element={<AdminProducts />} />
-                  <Route path="/admin/categories" element={<AdminCategories />} />
-                  <Route path="/admin/banners" element={<AdminBanners />} />
-                  <Route path="/admin/orders" element={<AdminOrders />} />
-                  <Route path="/admin/customers" element={<AdminCustomers />} />
-                  <Route path="/admin/settings" element={<AdminSettings />} />
-                </Route>
+                  <Route element={<AdminLayout />}>
+                    <Route path="/admin" element={<AdminDashboard />} />
+                    <Route path="/admin/products" element={<AdminProducts />} />
+                    <Route path="/admin/categories" element={<AdminCategories />} />
+                    <Route path="/admin/banners" element={<AdminBanners />} />
+                    <Route path="/admin/orders" element={<AdminOrders />} />
+                    <Route path="/admin/customers" element={<AdminCustomers />} />
+                    <Route path="/admin/coupons" element={<AdminCoupons />} />
+                    <Route path="/admin/offers" element={<AdminOffers />} />
+                    <Route path="/admin/settings" element={<AdminSettings />} />
+                  </Route>
 
-                {/* Seller panel */}
-                <Route element={<SellerLayout />}>
-                  <Route path="/seller" element={<SellerDashboard />} />
-                  <Route path="/seller/products" element={<SellerProducts />} />
-                  <Route path="/seller/orders" element={<SellerOrders />} />
-                  <Route path="/seller/settings" element={<SellerSettings />} />
-                </Route>
+                  <Route element={<SellerLayout />}>
+                    <Route path="/seller" element={<SellerDashboard />} />
+                    <Route path="/seller/products" element={<SellerProducts />} />
+                    <Route path="/seller/orders" element={<SellerOrders />} />
+                    <Route path="/seller/settings" element={<SellerSettings />} />
+                  </Route>
 
-                <Route path="*" element={<NotFound />} />
-              </Routes>
-            </BrowserRouter>
-          </TooltipProvider>
-        </WishlistProvider>
-      </CartProvider>
-    </AuthProvider>
+                  <Route path="*" element={<NotFound />} />
+                </Routes>
+              </BrowserRouter>
+            </TooltipProvider>
+          </WishlistProvider>
+        </CartProvider>
+      </AuthProvider>
+    </StoreProvider>
   </QueryClientProvider>
 );
 

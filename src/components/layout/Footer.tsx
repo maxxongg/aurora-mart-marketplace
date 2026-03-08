@@ -1,18 +1,20 @@
 import { Link } from "react-router-dom";
 import { Facebook, Instagram, Twitter, Mail, Phone, MapPin } from "lucide-react";
+import { useStore } from "@/context/StoreContext";
 
 export default function Footer() {
+  const { settings } = useStore();
   return (
     <footer className="bg-foreground text-background/80 mt-16">
       <div className="container mx-auto py-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           <div>
-            <h3 className="font-display font-bold text-xl text-background mb-4">Aurora Mart</h3>
+            <h3 className="font-display font-bold text-xl text-background mb-4">{settings.storeName}</h3>
             <p className="text-sm leading-relaxed mb-4">Your one-stop marketplace for quality products from trusted sellers worldwide.</p>
             <div className="flex gap-3">
-              <a href="#" className="h-9 w-9 rounded-full bg-background/10 flex items-center justify-center hover:bg-primary transition-colors"><Facebook className="h-4 w-4" /></a>
-              <a href="#" className="h-9 w-9 rounded-full bg-background/10 flex items-center justify-center hover:bg-primary transition-colors"><Instagram className="h-4 w-4" /></a>
-              <a href="#" className="h-9 w-9 rounded-full bg-background/10 flex items-center justify-center hover:bg-primary transition-colors"><Twitter className="h-4 w-4" /></a>
+              {settings.socialFacebook && <a href={settings.socialFacebook} target="_blank" rel="noopener noreferrer" className="h-9 w-9 rounded-full bg-background/10 flex items-center justify-center hover:bg-primary transition-colors"><Facebook className="h-4 w-4" /></a>}
+              {settings.socialInstagram && <a href={settings.socialInstagram} target="_blank" rel="noopener noreferrer" className="h-9 w-9 rounded-full bg-background/10 flex items-center justify-center hover:bg-primary transition-colors"><Instagram className="h-4 w-4" /></a>}
+              {settings.socialTwitter && <a href={settings.socialTwitter} target="_blank" rel="noopener noreferrer" className="h-9 w-9 rounded-full bg-background/10 flex items-center justify-center hover:bg-primary transition-colors"><Twitter className="h-4 w-4" /></a>}
             </div>
           </div>
           <div>
@@ -36,14 +38,14 @@ export default function Footer() {
           <div>
             <h4 className="font-display font-semibold text-background mb-4">Contact</h4>
             <div className="flex flex-col gap-3 text-sm">
-              <div className="flex items-center gap-2"><Mail className="h-4 w-4 text-primary" /> support@auroramart.com</div>
-              <div className="flex items-center gap-2"><Phone className="h-4 w-4 text-primary" /> +880 1234-567890</div>
-              <div className="flex items-center gap-2"><MapPin className="h-4 w-4 text-primary" /> Dhaka, Bangladesh</div>
+              <div className="flex items-center gap-2"><Mail className="h-4 w-4 text-primary" /> {settings.contactEmail}</div>
+              <div className="flex items-center gap-2"><Phone className="h-4 w-4 text-primary" /> {settings.contactPhone}</div>
+              <div className="flex items-center gap-2"><MapPin className="h-4 w-4 text-primary" /> {settings.contactAddress}</div>
             </div>
           </div>
         </div>
         <div className="border-t border-background/10 mt-8 pt-8 text-center text-sm">
-          © {new Date().getFullYear()} Aurora Mart. All rights reserved.
+          © {new Date().getFullYear()} {settings.storeName}. All rights reserved.
         </div>
       </div>
     </footer>

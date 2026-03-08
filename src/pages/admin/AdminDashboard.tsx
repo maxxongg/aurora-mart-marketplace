@@ -1,5 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { mockProducts, mockOrders, mockUsers } from "@/data/mock";
+import { useStore } from "@/context/StoreContext";
 import { DollarSign, Package, ShoppingBag, Users } from "lucide-react";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
 import { Badge } from "@/components/ui/badge";
@@ -10,12 +10,13 @@ const revenueData = [
 ];
 
 export default function AdminDashboard() {
-  const totalRevenue = mockOrders.reduce((s, o) => s + o.total, 0);
+  const { orders, products } = useStore();
+  const totalRevenue = orders.reduce((s, o) => s + o.total, 0);
   const stats = [
     { icon: DollarSign, label: "Total Revenue", value: `$${totalRevenue.toFixed(2)}`, color: "text-success" },
-    { icon: ShoppingBag, label: "Total Orders", value: mockOrders.length, color: "text-primary" },
-    { icon: Users, label: "Customers", value: mockUsers.filter((u) => u.role === "customer").length, color: "text-blue-500" },
-    { icon: Package, label: "Products", value: mockProducts.length, color: "text-warning" },
+    { icon: ShoppingBag, label: "Total Orders", value: orders.length, color: "text-primary" },
+    { icon: Users, label: "Customers", value: 3, color: "text-blue-500" },
+    { icon: Package, label: "Products", value: products.length, color: "text-warning" },
   ];
 
   return (
@@ -49,7 +50,7 @@ export default function AdminDashboard() {
           <CardHeader><CardTitle>Recent Orders</CardTitle></CardHeader>
           <CardContent>
             <div className="space-y-3">
-              {mockOrders.map((order) => (
+              {orders.map((order) => (
                 <div key={order.id} className="flex items-center justify-between py-2 border-b last:border-0">
                   <div><p className="font-medium text-sm">{order.id}</p><p className="text-xs text-muted-foreground">{new Date(order.createdAt).toLocaleDateString()}</p></div>
                   <div className="text-right"><p className="font-medium text-sm">${order.total.toFixed(2)}</p><Badge variant="secondary" className="text-xs">{order.status}</Badge></div>

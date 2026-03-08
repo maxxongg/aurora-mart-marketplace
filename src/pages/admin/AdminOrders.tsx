@@ -1,4 +1,4 @@
-import { mockOrders } from "@/data/mock";
+import { useStore } from "@/context/StoreContext";
 import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
@@ -10,6 +10,7 @@ const statusColors: Record<string, string> = {
 };
 
 export default function AdminOrders() {
+  const { orders } = useStore();
   return (
     <div>
       <h1 className="font-display text-2xl font-bold mb-6">Orders</h1>
@@ -17,7 +18,7 @@ export default function AdminOrders() {
         <Table>
           <TableHeader><TableRow><TableHead>Order ID</TableHead><TableHead>Date</TableHead><TableHead>Total</TableHead><TableHead>Payment</TableHead><TableHead>Status</TableHead><TableHead>Update</TableHead></TableRow></TableHeader>
           <TableBody>
-            {mockOrders.map((o) => (
+            {orders.map((o) => (
               <TableRow key={o.id}>
                 <TableCell className="font-medium">{o.id}</TableCell>
                 <TableCell className="text-sm">{new Date(o.createdAt).toLocaleDateString()}</TableCell>
