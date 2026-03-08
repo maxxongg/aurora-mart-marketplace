@@ -227,10 +227,10 @@ export default function Header() {
 
   return (
     <header className="sticky top-0 z-50 bg-card/80 backdrop-blur-lg border-b">
-      <Link to={settings.announcementLink || "/products"} className="block gradient-primary text-primary-foreground text-center py-1.5 text-sm font-medium hover:opacity-90 transition-opacity">
+      <Link to={settings.announcementLink || "/products"} className="block gradient-primary text-primary-foreground text-center py-1 sm:py-1.5 text-[11px] sm:text-sm font-medium hover:opacity-90 transition-opacity px-4 leading-snug">
         {settings.announcementText}
       </Link>
-      <div className="container mx-auto">
+      <div className="container mx-auto px-3 sm:px-4">
         <div className="flex items-center justify-between h-16 gap-4">
           <Sheet>
             <SheetTrigger asChild><Button variant="ghost" size="icon" className="lg:hidden"><Menu className="h-5 w-5" /></Button></SheetTrigger>
