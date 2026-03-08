@@ -1,11 +1,11 @@
 import { Link } from "react-router-dom";
-import { ShoppingCart, Heart, User, Search, Menu, X, ChevronDown } from "lucide-react";
+import { ShoppingCart, Heart, User, Search, Menu, X, ChevronDown, Moon, Sun } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useAuth } from "@/context/AuthContext";
 import { useCart } from "@/context/CartContext";
 import { useWishlist } from "@/context/WishlistContext";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { mockSettings, mockCategories } from "@/data/mock";
 import { Badge } from "@/components/ui/badge";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
@@ -16,6 +16,12 @@ export default function Header() {
   const { itemCount } = useCart();
   const { items: wishlistItems } = useWishlist();
   const [search, setSearch] = useState("");
+  const [isDark, setIsDark] = useState(() => document.documentElement.classList.contains("dark"));
+
+  useEffect(() => {
+    document.documentElement.classList.toggle("dark", isDark);
+    localStorage.setItem("theme", isDark ? "dark" : "light");
+  }, [isDark]);
 
   const getDashboardLink = () => {
     if (!user) return "/auth";
@@ -89,6 +95,9 @@ export default function Header() {
 
           {/* Actions */}
           <div className="flex items-center gap-1">
+            <Button variant="ghost" size="icon" onClick={() => setIsDark(!isDark)}>
+              {isDark ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
+            </Button>
             <Button variant="ghost" size="icon" asChild className="relative">
               <Link to="/wishlist">
                 <Heart className="h-5 w-5" />
