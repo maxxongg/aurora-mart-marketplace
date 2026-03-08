@@ -88,9 +88,9 @@ function SearchBox({ className }: { className?: string }) {
   return (
     <div ref={ref} className={`relative ${className || ""}`}>
       <form onSubmit={handleSubmit} className="flex items-center gap-0 bg-secondary rounded-lg overflow-hidden border border-transparent focus-within:border-primary/50 transition-colors">
-        {/* Category Selector */}
+        {/* Category Selector - hidden on very small screens */}
         <Select value={selectedCategory} onValueChange={setSelectedCategory}>
-          <SelectTrigger className="w-auto min-w-[100px] max-w-[140px] border-0 bg-transparent rounded-none border-r border-border/50 text-xs h-10 px-2.5 focus:ring-0 shrink-0">
+          <SelectTrigger className="w-auto min-w-[80px] max-w-[120px] sm:min-w-[100px] sm:max-w-[140px] border-0 bg-transparent rounded-none border-r border-border/50 text-[11px] sm:text-xs h-9 sm:h-10 px-2 sm:px-2.5 focus:ring-0 shrink-0 hidden xs:flex">
             <SelectValue placeholder="All" />
           </SelectTrigger>
           <SelectContent>
@@ -100,22 +100,22 @@ function SearchBox({ className }: { className?: string }) {
         </Select>
 
         {/* Search Input */}
-        <div className="relative flex-1">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+        <div className="relative flex-1 min-w-0">
+          <Search className="absolute left-2.5 sm:left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 sm:h-4 sm:w-4 text-muted-foreground" />
           <Input
             placeholder="Search products..."
             value={query}
             onChange={(e) => { setQuery(e.target.value); setOpen(true); }}
             onFocus={() => query && setOpen(true)}
-            className="pl-10 border-0 bg-transparent rounded-none h-10 focus-visible:ring-0"
+            className="pl-8 sm:pl-10 border-0 bg-transparent rounded-none h-9 sm:h-10 text-sm focus-visible:ring-0"
           />
         </div>
 
         {/* Filter Button */}
         <Popover open={filtersOpen} onOpenChange={setFiltersOpen}>
           <PopoverTrigger asChild>
-            <Button type="button" variant="ghost" size="sm" className="rounded-none h-10 px-3 border-l border-border/50 relative shrink-0">
-              <SlidersHorizontal className="h-4 w-4" />
+            <Button type="button" variant="ghost" size="sm" className="rounded-none h-9 sm:h-10 px-2.5 sm:px-3 border-l border-border/50 relative shrink-0">
+              <SlidersHorizontal className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
               {activeFilterCount > 0 && (
                 <span className="absolute -top-0.5 -right-0.5 h-4 w-4 rounded-full gradient-primary text-primary-foreground text-[9px] flex items-center justify-center font-bold">{activeFilterCount}</span>
               )}
@@ -174,8 +174,8 @@ function SearchBox({ className }: { className?: string }) {
         </Popover>
 
         {/* Search Button */}
-        <Button type="submit" size="sm" className="rounded-none rounded-r-lg h-10 px-4 gradient-primary border-0 text-primary-foreground shrink-0">
-          <Search className="h-4 w-4" />
+        <Button type="submit" size="sm" className="rounded-none rounded-r-lg h-9 sm:h-10 px-3 sm:px-4 gradient-primary border-0 text-primary-foreground shrink-0">
+          <Search className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
         </Button>
       </form>
 
@@ -227,11 +227,11 @@ export default function Header() {
 
   return (
     <header className="sticky top-0 z-50 bg-card/80 backdrop-blur-lg border-b">
-      <Link to={settings.announcementLink || "/products"} className="block gradient-primary text-primary-foreground text-center py-1.5 text-sm font-medium hover:opacity-90 transition-opacity">
+      <Link to={settings.announcementLink || "/products"} className="block gradient-primary text-primary-foreground text-center py-1 sm:py-1.5 text-[11px] sm:text-sm font-medium hover:opacity-90 transition-opacity px-4 leading-snug">
         {settings.announcementText}
       </Link>
-      <div className="container mx-auto">
-        <div className="flex items-center justify-between h-16 gap-4">
+      <div className="container mx-auto px-3 sm:px-4">
+        <div className="flex items-center justify-between h-14 sm:h-16 gap-2 sm:gap-4">
           <Sheet>
             <SheetTrigger asChild><Button variant="ghost" size="icon" className="lg:hidden"><Menu className="h-5 w-5" /></Button></SheetTrigger>
             <SheetContent side="left" className="w-72">
@@ -245,8 +245,8 @@ export default function Header() {
               </nav>
             </SheetContent>
           </Sheet>
-          <Link to="/" className="font-display font-bold text-xl md:text-2xl shrink-0">
-            {settings.storeLogo ? <img src={settings.storeLogo} alt={settings.storeName} className="h-8" /> : <><span className="text-gradient">{settings.storeName.split(" ")[0]}</span> {settings.storeName.split(" ").slice(1).join(" ")}</>}
+          <Link to="/" className="font-display font-bold text-lg sm:text-xl md:text-2xl shrink-0">
+            {settings.storeLogo ? <img src={settings.storeLogo} alt={settings.storeName} className="h-7 sm:h-8" /> : <><span className="text-gradient">{settings.storeName.split(" ")[0]}</span> <span className="hidden sm:inline">{settings.storeName.split(" ").slice(1).join(" ")}</span></>}
           </Link>
           <SearchBox className="hidden md:block flex-1 max-w-xl" />
           <nav className="hidden lg:flex items-center gap-6 text-sm font-medium">
@@ -258,10 +258,10 @@ export default function Header() {
             <Link to="/new-arrivals" className="hover:text-primary transition-colors">New</Link>
             <Link to="/best-sellers" className="hover:text-primary transition-colors">Best Sellers</Link>
           </nav>
-          <div className="flex items-center gap-1">
-            <Button variant="ghost" size="icon" onClick={() => setIsDark(!isDark)}>{isDark ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}</Button>
-            <Button variant="ghost" size="icon" asChild className="relative"><Link to="/wishlist"><Heart className="h-5 w-5" />{wishlistItems.length > 0 && <Badge className="absolute -top-1 -right-1 h-5 w-5 rounded-full p-0 flex items-center justify-center text-[10px] gradient-primary border-0">{wishlistItems.length}</Badge>}</Link></Button>
-            <Button variant="ghost" size="icon" asChild className="relative"><Link to="/cart"><ShoppingCart className="h-5 w-5" />{itemCount > 0 && <Badge className="absolute -top-1 -right-1 h-5 w-5 rounded-full p-0 flex items-center justify-center text-[10px] gradient-primary border-0">{itemCount}</Badge>}</Link></Button>
+          <div className="flex items-center gap-0.5 sm:gap-1">
+            <Button variant="ghost" size="icon" className="h-8 w-8 sm:h-9 sm:w-9" onClick={() => setIsDark(!isDark)}>{isDark ? <Sun className="h-4 w-4 sm:h-5 sm:w-5" /> : <Moon className="h-4 w-4 sm:h-5 sm:w-5" />}</Button>
+            <Button variant="ghost" size="icon" className="h-8 w-8 sm:h-9 sm:w-9 relative" asChild><Link to="/wishlist"><Heart className="h-4 w-4 sm:h-5 sm:w-5" />{wishlistItems.length > 0 && <Badge className="absolute -top-1 -right-1 h-4 w-4 sm:h-5 sm:w-5 rounded-full p-0 flex items-center justify-center text-[9px] sm:text-[10px] gradient-primary border-0">{wishlistItems.length}</Badge>}</Link></Button>
+            <Button variant="ghost" size="icon" className="h-8 w-8 sm:h-9 sm:w-9 relative" asChild><Link to="/cart"><ShoppingCart className="h-4 w-4 sm:h-5 sm:w-5" />{itemCount > 0 && <Badge className="absolute -top-1 -right-1 h-4 w-4 sm:h-5 sm:w-5 rounded-full p-0 flex items-center justify-center text-[9px] sm:text-[10px] gradient-primary border-0">{itemCount}</Badge>}</Link></Button>
             {isAuthenticated ? (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild><Button variant="ghost" size="icon"><User className="h-5 w-5" /></Button></DropdownMenuTrigger>
@@ -277,11 +277,11 @@ export default function Header() {
                 </DropdownMenuContent>
               </DropdownMenu>
             ) : (
-              <Button asChild size="sm" className="gradient-primary border-0 text-primary-foreground ml-1"><Link to="/auth">Sign In</Link></Button>
+              <Button asChild size="sm" className="gradient-primary border-0 text-primary-foreground ml-0.5 sm:ml-1 text-xs sm:text-sm h-8 sm:h-9 px-2.5 sm:px-3"><Link to="/auth">Sign In</Link></Button>
             )}
           </div>
         </div>
-        <div className="md:hidden pb-3"><SearchBox /></div>
+        <div className="md:hidden pb-2 sm:pb-3"><SearchBox /></div>
       </div>
     </header>
   );

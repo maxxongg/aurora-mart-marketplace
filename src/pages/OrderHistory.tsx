@@ -28,37 +28,37 @@ export default function OrderHistory() {
   }
 
   return (
-    <div className="container mx-auto py-8">
-      <h1 className="font-display text-3xl font-bold mb-8">My Orders</h1>
-      <div className="space-y-4">
+    <div className="container mx-auto py-6 sm:py-8 px-4">
+      <h1 className="font-display text-2xl sm:text-3xl font-bold mb-6 sm:mb-8">My Orders</h1>
+      <div className="space-y-3 sm:space-y-4">
         {orders.map((order) => (
-          <div key={order.id} className="bg-card border rounded-lg p-6">
-            <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
+          <div key={order.id} className="bg-card border rounded-lg p-4 sm:p-6">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 sm:gap-3 mb-3 sm:mb-4">
               <div>
-                <span className="font-display font-bold text-lg">{order.id}</span>
-                <span className="text-sm text-muted-foreground ml-3">{new Date(order.createdAt).toLocaleDateString()}</span>
+                <span className="font-display font-bold text-base sm:text-lg">{order.id}</span>
+                <span className="text-xs sm:text-sm text-muted-foreground ml-2 sm:ml-3">{new Date(order.createdAt).toLocaleDateString()}</span>
               </div>
               <div className="flex gap-2">
                 <Badge className={statusColors[order.status]}>{order.status}</Badge>
-                <Badge variant="outline">{order.paymentMethod.toUpperCase()}</Badge>
+                <Badge variant="outline" className="text-xs">{order.paymentMethod.toUpperCase()}</Badge>
               </div>
             </div>
             <div className="space-y-2">
               {order.items.map((item) => {
                 const product = products.find((p) => p.id === item.productId);
                 return (
-                  <div key={item.id} className="flex items-center gap-3 text-sm">
-                    {product && <img src={product.image} alt="" className="h-10 w-10 rounded object-cover" />}
-                    <span className="flex-1">{product?.name || "Product"}</span>
-                    <span className="text-muted-foreground">×{item.quantity}</span>
-                    <span className="font-medium">{c}{item.price.toFixed(2)}</span>
+                  <div key={item.id} className="flex items-center gap-2 sm:gap-3 text-xs sm:text-sm">
+                    {product && <img src={product.image} alt="" className="h-9 w-9 sm:h-10 sm:w-10 rounded object-cover shrink-0" />}
+                    <span className="flex-1 min-w-0 truncate">{product?.name || "Product"}</span>
+                    <span className="text-muted-foreground shrink-0">×{item.quantity}</span>
+                    <span className="font-medium shrink-0">{c}{item.price.toFixed(2)}</span>
                   </div>
                 );
               })}
             </div>
-            <div className="flex justify-between mt-4 pt-4 border-t">
-              <span className="text-sm text-muted-foreground">Shipping: {order.shippingCity}</span>
-              <span className="font-display font-bold">Total: {c}{order.total.toFixed(2)}</span>
+            <div className="flex flex-col sm:flex-row sm:justify-between mt-3 sm:mt-4 pt-3 sm:pt-4 border-t gap-1">
+              <span className="text-xs sm:text-sm text-muted-foreground">Shipping: {order.shippingCity}</span>
+              <span className="font-display font-bold text-sm sm:text-base">Total: {c}{order.total.toFixed(2)}</span>
             </div>
           </div>
         ))}
