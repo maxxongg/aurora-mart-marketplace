@@ -126,8 +126,8 @@ export default function Auth() {
             <div className="flex items-center gap-2 mb-5 pb-4 border-b">
               <ShieldCheck className="h-5 w-5 text-primary" />
               <div>
-                <h2 className="font-display font-bold text-sm">Seller & Admin Portal</h2>
-                <p className="text-xs text-muted-foreground">Access your dashboard to manage products, orders & settings</p>
+                <h2 className="font-display font-bold text-sm">Seller Portal</h2>
+                <p className="text-xs text-muted-foreground">Access your dashboard to manage products & orders</p>
               </div>
             </div>
             <form onSubmit={handleSellerLogin} className="space-y-4">
@@ -136,12 +136,6 @@ export default function Auth() {
               <Button type="submit" className="w-full gradient-primary border-0 text-primary-foreground">
                 <Store className="h-4 w-4 mr-2" /> Sign In
               </Button>
-              <div className="bg-muted/50 rounded-lg p-3 text-xs text-muted-foreground space-y-1">
-                <p className="font-medium text-foreground text-[11px]">Demo Credentials:</p>
-                <p><span className="font-medium">Admin:</span> admin@auroramart.com</p>
-                <p><span className="font-medium">Seller:</span> jane@example.com</p>
-                <p className="text-[10px] italic">Any password works in demo mode</p>
-              </div>
             </form>
           </div>
         )}
