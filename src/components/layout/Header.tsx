@@ -245,8 +245,8 @@ export default function Header() {
               </nav>
             </SheetContent>
           </Sheet>
-          <Link to="/" className="font-display font-bold text-xl md:text-2xl shrink-0">
-            {settings.storeLogo ? <img src={settings.storeLogo} alt={settings.storeName} className="h-8" /> : <><span className="text-gradient">{settings.storeName.split(" ")[0]}</span> {settings.storeName.split(" ").slice(1).join(" ")}</>}
+          <Link to="/" className="font-display font-bold text-lg sm:text-xl md:text-2xl shrink-0">
+            {settings.storeLogo ? <img src={settings.storeLogo} alt={settings.storeName} className="h-7 sm:h-8" /> : <><span className="text-gradient">{settings.storeName.split(" ")[0]}</span> <span className="hidden sm:inline">{settings.storeName.split(" ").slice(1).join(" ")}</span></>}
           </Link>
           <SearchBox className="hidden md:block flex-1 max-w-xl" />
           <nav className="hidden lg:flex items-center gap-6 text-sm font-medium">
