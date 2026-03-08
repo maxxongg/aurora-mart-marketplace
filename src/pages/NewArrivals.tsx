@@ -2,7 +2,8 @@ import { useStore } from "@/context/StoreContext";
 import ProductCard from "@/components/ProductCard";
 
 export default function NewArrivals() {
-  const products = [...mockProducts].sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+  const { products } = useStore();
+  const sorted = [...products].filter(p => p.status === "active").sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
   return (
     <div className="container mx-auto py-8">
       <h1 className="font-display text-3xl font-bold mb-8">New Arrivals</h1>
