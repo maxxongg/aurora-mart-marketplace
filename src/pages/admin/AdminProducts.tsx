@@ -71,6 +71,10 @@ export default function AdminProducts() {
             <div><Label>Name</Label><Input required value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} /></div>
             <div><Label>Description</Label><Textarea value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} rows={3} /></div>
             <div className="grid grid-cols-2 gap-4">
+              <div><Label>Brand</Label><Input value={form.brand} onChange={(e) => setForm({ ...form, brand: e.target.value })} placeholder="e.g. SoundMax" /></div>
+              <div><Label>Product Type</Label><Input value={form.productType} onChange={(e) => setForm({ ...form, productType: e.target.value })} placeholder="e.g. Headphones" /></div>
+            </div>
+            <div className="grid grid-cols-2 gap-4">
               <div><Label>Price</Label><Input type="number" step="0.01" required value={form.price} onChange={(e) => setForm({ ...form, price: Number(e.target.value) })} /></div>
               <div><Label>Original Price</Label><Input type="number" step="0.01" value={form.originalPrice} onChange={(e) => setForm({ ...form, originalPrice: Number(e.target.value) })} /></div>
             </div>
