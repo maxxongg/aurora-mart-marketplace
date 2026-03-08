@@ -101,7 +101,32 @@ export default function AdminSettings() {
           <CardHeader><CardTitle>General</CardTitle></CardHeader>
           <CardContent className="space-y-4">
             <div><Label>Store Name</Label><Input value={form.storeName} onChange={(e) => set("storeName", e.target.value)} /></div>
-            <div><Label>Logo URL (optional)</Label><Input value={form.storeLogo} onChange={(e) => set("storeLogo", e.target.value)} placeholder="https://..." /></div>
+            <div>
+              <Label>Store Logo</Label>
+              <div className="mt-1 space-y-3">
+                {form.storeLogo && (
+                  <div className="flex items-center gap-3 p-3 border rounded-lg bg-muted/30">
+                    <img src={form.storeLogo} alt="Logo" className="h-12 max-w-[200px] object-contain" />
+                    <Button variant="ghost" size="icon" className="h-8 w-8 text-destructive shrink-0" onClick={() => set("storeLogo", "")}>
+                      <X className="h-4 w-4" />
+                    </Button>
+                  </div>
+                )}
+                <div className="flex gap-2">
+                  <Button type="button" variant="outline" size="sm" onClick={() => logoInputRef.current?.click()}>
+                    <Upload className="h-4 w-4 mr-2" /> Upload Logo
+                  </Button>
+                  <Input
+                    value={form.storeLogo?.startsWith("data:") ? "" : form.storeLogo}
+                    onChange={(e) => set("storeLogo", e.target.value)}
+                    placeholder="Or paste image URL..."
+                    className="flex-1"
+                  />
+                </div>
+                <input ref={logoInputRef} type="file" accept="image/*" className="hidden" onChange={handleLogoUpload} />
+                <p className="text-xs text-muted-foreground">Recommended: 200×60px, max 4 MB. PNG or SVG preferred.</p>
+              </div>
+            </div>
             <div><Label>Announcement Text</Label><Input value={form.announcementText} onChange={(e) => set("announcementText", e.target.value)} /></div>
             <div><Label>Announcement Link</Label><Input value={form.announcementLink} onChange={(e) => set("announcementLink", e.target.value)} /></div>
             <div><Label>Footer Description</Label><Textarea value={form.footerDescription} onChange={(e) => set("footerDescription", e.target.value)} rows={2} /></div>
