@@ -31,15 +31,17 @@ export default function Products() {
   useEffect(() => { setSearch(searchQuery); }, [searchQuery]);
   useEffect(() => { if (categoryFilter) setSelectedCategories([categoryFilter]); }, [categoryFilter]);
 
-  // Extract unique "brands" from product names (first word or two)
+  // Extract unique brands and product types from real metadata
   const brands = useMemo(() => {
-    const brandSet = new Set<string>();
-    products.filter(p => p.status === "active").forEach(p => {
-      // Use category name as a proxy for brand grouping
-      const words = p.name.split(" ");
-      if (words.length >= 2) brandSet.add(words[0]);
-    });
-    return Array.from(brandSet).sort();
+    const set = new Set<string>();
+    products.filter(p => p.status === "active" && p.brand).forEach(p => set.add(p.brand!));
+    return Array.from(set).sort();
+  }, [products]);
+
+  const productTypes = useMemo(() => {
+    const set = new Set<string>();
+    products.filter(p => p.status === "active" && p.productType).forEach(p => set.add(p.productType!));
+    return Array.from(set).sort();
   }, [products]);
 
   // Price bounds

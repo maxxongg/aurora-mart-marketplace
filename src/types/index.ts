@@ -24,6 +24,8 @@ export interface Product {
   description: string;
   categoryId: string;
   category?: Category;
+  brand?: string;
+  productType?: string;
   price: number;
   originalPrice?: number;
   stock: number;
