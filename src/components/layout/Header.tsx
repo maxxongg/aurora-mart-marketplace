@@ -281,7 +281,7 @@ export default function Header() {
             )}
           </div>
         </div>
-        <div className="md:hidden pb-3"><SearchBox /></div>
+        <div className="md:hidden pb-2 sm:pb-3"><SearchBox /></div>
       </div>
     </header>
   );
