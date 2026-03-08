@@ -16,13 +16,17 @@ function SearchBox({ className }: { className?: string }) {
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
   const ref = useRef<HTMLDivElement>(null);
-  const { products } = useStore();
+  const { products, categories, settings } = useStore();
 
   const results = useMemo(() => {
-    if (!query.trim()) return [];
+    if (!query.trim()) return { products: [], categories: [] };
     const q = query.toLowerCase();
-    return products.filter((p) => p.name.toLowerCase().includes(q) || p.description.toLowerCase().includes(q)).slice(0, 6);
-  }, [query, products]);
+    const matchedProducts = products.filter((p) => p.status === "active" && (p.name.toLowerCase().includes(q) || p.description.toLowerCase().includes(q))).slice(0, 5);
+    const matchedCategories = categories.filter((c) => c.name.toLowerCase().includes(q)).slice(0, 3);
+    return { products: matchedProducts, categories: matchedCategories };
+  }, [query, products, categories]);
+
+  const hasResults = results.products.length > 0 || results.categories.length > 0;
 
   useEffect(() => {
     const handler = (e: MouseEvent) => { if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false); };
@@ -32,25 +36,42 @@ function SearchBox({ className }: { className?: string }) {
 
   const handleSubmit = (e: React.FormEvent) => { e.preventDefault(); if (query.trim()) { navigate(`/products?search=${encodeURIComponent(query.trim())}`); setOpen(false); setQuery(""); } };
   const handleSelect = (productId: string) => { setOpen(false); setQuery(""); navigate(`/product/${productId}`); };
+  const handleCategorySelect = (catId: string) => { setOpen(false); setQuery(""); navigate(`/products?category=${catId}`); };
 
   return (
     <div ref={ref} className={`relative ${className || ""}`}>
       <form onSubmit={handleSubmit}>
         <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground z-10" />
-        <Input placeholder="Search products..." value={query} onChange={(e) => { setQuery(e.target.value); setOpen(true); }} onFocus={() => query && setOpen(true)} className="pl-10 bg-secondary border-0" />
+        <Input placeholder="Search products, categories..." value={query} onChange={(e) => { setQuery(e.target.value); setOpen(true); }} onFocus={() => query && setOpen(true)} className="pl-10 bg-secondary border-0" />
       </form>
-      {open && results.length > 0 && (
-        <div className="absolute top-full left-0 right-0 mt-1 bg-popover border rounded-lg shadow-elevated z-50 overflow-hidden">
-          {results.map((p) => (
-            <button key={p.id} onClick={() => handleSelect(p.id)} className="flex items-center gap-3 w-full px-3 py-2.5 hover:bg-accent transition-colors text-left">
-              <img src={p.image} alt={p.name} className="w-10 h-10 rounded-md object-cover shrink-0" />
-              <div className="min-w-0 flex-1"><p className="text-sm font-medium truncate text-popover-foreground">{p.name}</p><p className="text-xs text-muted-foreground">${p.price.toFixed(2)}</p></div>
-            </button>
-          ))}
+      {open && hasResults && (
+        <div className="absolute top-full left-0 right-0 mt-1 bg-popover border rounded-lg shadow-elevated z-50 overflow-hidden max-h-96 overflow-y-auto">
+          {results.categories.length > 0 && (
+            <>
+              <div className="px-3 py-1.5 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground bg-muted/50">Categories</div>
+              {results.categories.map((c) => (
+                <button key={c.id} onClick={() => handleCategorySelect(c.id)} className="flex items-center gap-3 w-full px-3 py-2.5 hover:bg-accent transition-colors text-left">
+                  <img src={c.image} alt={c.name} className="w-8 h-8 rounded-full object-cover shrink-0" />
+                  <span className="text-sm font-medium text-popover-foreground">{c.name}</span>
+                </button>
+              ))}
+            </>
+          )}
+          {results.products.length > 0 && (
+            <>
+              <div className="px-3 py-1.5 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground bg-muted/50">Products</div>
+              {results.products.map((p) => (
+                <button key={p.id} onClick={() => handleSelect(p.id)} className="flex items-center gap-3 w-full px-3 py-2.5 hover:bg-accent transition-colors text-left">
+                  <img src={p.image} alt={p.name} className="w-10 h-10 rounded-md object-cover shrink-0" />
+                  <div className="min-w-0 flex-1"><p className="text-sm font-medium truncate text-popover-foreground">{p.name}</p><p className="text-xs text-muted-foreground">{settings.currency}{p.price.toFixed(2)}</p></div>
+                </button>
+              ))}
+            </>
+          )}
           <button onClick={handleSubmit as any} className="w-full px-3 py-2 text-sm text-primary font-medium hover:bg-accent transition-colors border-t">View all results for "{query}"</button>
         </div>
       )}
-      {open && query.trim() && results.length === 0 && (
+      {open && query.trim() && !hasResults && (
         <div className="absolute top-full left-0 right-0 mt-1 bg-popover border rounded-lg shadow-elevated z-50 p-4 text-center text-sm text-muted-foreground">No products found for "{query}"</div>
       )}
     </div>
