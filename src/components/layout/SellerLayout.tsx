@@ -1,4 +1,5 @@
-import { Outlet, Link, useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+import AnimatedOutlet from "@/components/AnimatedOutlet";
 import { LayoutDashboard, Package, ShoppingBag, Settings, LogOut, ChevronLeft } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/context/AuthContext";
@@ -50,7 +51,7 @@ export default function SellerLayout() {
       </aside>
       <div className="flex-1 overflow-auto">
         <div className="p-6 lg:p-8 max-w-7xl">
-          <Outlet />
+          <AnimatedOutlet />
         </div>
       </div>
     </div>
