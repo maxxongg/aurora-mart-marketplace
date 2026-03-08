@@ -258,10 +258,10 @@ export default function Header() {
             <Link to="/new-arrivals" className="hover:text-primary transition-colors">New</Link>
             <Link to="/best-sellers" className="hover:text-primary transition-colors">Best Sellers</Link>
           </nav>
-          <div className="flex items-center gap-1">
-            <Button variant="ghost" size="icon" onClick={() => setIsDark(!isDark)}>{isDark ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}</Button>
-            <Button variant="ghost" size="icon" asChild className="relative"><Link to="/wishlist"><Heart className="h-5 w-5" />{wishlistItems.length > 0 && <Badge className="absolute -top-1 -right-1 h-5 w-5 rounded-full p-0 flex items-center justify-center text-[10px] gradient-primary border-0">{wishlistItems.length}</Badge>}</Link></Button>
-            <Button variant="ghost" size="icon" asChild className="relative"><Link to="/cart"><ShoppingCart className="h-5 w-5" />{itemCount > 0 && <Badge className="absolute -top-1 -right-1 h-5 w-5 rounded-full p-0 flex items-center justify-center text-[10px] gradient-primary border-0">{itemCount}</Badge>}</Link></Button>
+          <div className="flex items-center gap-0.5 sm:gap-1">
+            <Button variant="ghost" size="icon" className="h-8 w-8 sm:h-9 sm:w-9" onClick={() => setIsDark(!isDark)}>{isDark ? <Sun className="h-4 w-4 sm:h-5 sm:w-5" /> : <Moon className="h-4 w-4 sm:h-5 sm:w-5" />}</Button>
+            <Button variant="ghost" size="icon" className="h-8 w-8 sm:h-9 sm:w-9 relative" asChild><Link to="/wishlist"><Heart className="h-4 w-4 sm:h-5 sm:w-5" />{wishlistItems.length > 0 && <Badge className="absolute -top-1 -right-1 h-4 w-4 sm:h-5 sm:w-5 rounded-full p-0 flex items-center justify-center text-[9px] sm:text-[10px] gradient-primary border-0">{wishlistItems.length}</Badge>}</Link></Button>
+            <Button variant="ghost" size="icon" className="h-8 w-8 sm:h-9 sm:w-9 relative" asChild><Link to="/cart"><ShoppingCart className="h-4 w-4 sm:h-5 sm:w-5" />{itemCount > 0 && <Badge className="absolute -top-1 -right-1 h-4 w-4 sm:h-5 sm:w-5 rounded-full p-0 flex items-center justify-center text-[9px] sm:text-[10px] gradient-primary border-0">{itemCount}</Badge>}</Link></Button>
             {isAuthenticated ? (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild><Button variant="ghost" size="icon"><User className="h-5 w-5" /></Button></DropdownMenuTrigger>
