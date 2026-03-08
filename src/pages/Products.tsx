@@ -74,7 +74,7 @@ export default function Products() {
       default: list.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
     }
     return list;
-  }, [search, sort, selectedCategories, products, priceRange, selectedBrands, selectedRatings, onlyOnSale, onlyInStock]);
+  }, [search, sort, selectedCategories, products, priceRange, selectedBrands, selectedTypes, selectedRatings, onlyOnSale, onlyInStock]);
 
   const activeFilterCount = (selectedCategories.length > 0 ? 1 : 0) + (selectedBrands.length > 0 ? 1 : 0) + (selectedRatings.length > 0 ? 1 : 0) + (onlyOnSale ? 1 : 0) + (onlyInStock ? 1 : 0) + (priceRange[0] > priceBounds.min || priceRange[1] < priceBounds.max ? 1 : 0);
 
