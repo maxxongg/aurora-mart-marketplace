@@ -231,7 +231,7 @@ export default function Header() {
         {settings.announcementText}
       </Link>
       <div className="container mx-auto px-3 sm:px-4">
-        <div className="flex items-center justify-between h-16 gap-4">
+        <div className="flex items-center justify-between h-14 sm:h-16 gap-2 sm:gap-4">
           <Sheet>
             <SheetTrigger asChild><Button variant="ghost" size="icon" className="lg:hidden"><Menu className="h-5 w-5" /></Button></SheetTrigger>
             <SheetContent side="left" className="w-72">
