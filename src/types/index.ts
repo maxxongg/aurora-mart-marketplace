@@ -32,9 +32,9 @@ export interface Product {
   totalSold: number;
   isFeatured: boolean;
   isFlashSale: boolean;
+  status: "active" | "draft" | "archived";
   rating: number;
   reviewCount: number;
-  status: "active" | "draft" | "archived";
   createdAt: string;
 }
 
@@ -53,19 +53,23 @@ export interface CartItem {
   quantity: number;
 }
 
+export type OrderStatus = "pending" | "processing" | "shipped" | "delivered" | "cancelled";
+export type PaymentMethod = "cod" | "sslcommerz" | "bkash" | "stripe";
+export type PaymentStatus = "unpaid" | "paid" | "refunded";
+
 export interface Order {
   id: string;
   userId: string;
   items: OrderItem[];
   total: number;
-  status: "pending" | "processing" | "shipped" | "delivered" | "cancelled";
+  status: OrderStatus;
   shippingName: string;
   shippingPhone: string;
   shippingAddress: string;
   shippingCity: string;
   shippingZip: string;
-  paymentMethod: "cod" | "sslcommerz" | "bkash" | "stripe";
-  paymentStatus: "unpaid" | "paid" | "refunded";
+  paymentMethod: PaymentMethod;
+  paymentStatus: PaymentStatus;
   createdAt: string;
 }
 
@@ -77,20 +81,13 @@ export interface OrderItem {
   price: number;
 }
 
-export interface WishlistItem {
-  id: string;
-  productId: string;
-  product: Product;
-}
-
 export interface Settings {
   storeName: string;
   announcementText: string;
   flashSaleEnd: string;
   contactEmail: string;
   contactPhone: string;
-  address: string;
-  facebook: string;
-  instagram: string;
-  twitter: string;
+  socialFacebook: string;
+  socialInstagram: string;
+  socialTwitter: string;
 }
