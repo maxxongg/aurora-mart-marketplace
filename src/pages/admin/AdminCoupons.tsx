@@ -16,7 +16,7 @@ export default function AdminCoupons() {
   const { coupons, addCoupon, updateCoupon, deleteCoupon, settings } = useStore();
   const [editing, setEditing] = useState<Coupon | null>(null);
   const [isOpen, setIsOpen] = useState(false);
-  const emptyForm = { code: "", discountType: "percentage" as const, discountValue: 10, minOrderAmount: 0, maxUses: 100, isActive: true, expiresAt: "2026-12-31T23:59:59Z" };
+  const emptyForm = { code: "", discountType: "percentage" as Coupon["discountType"], discountValue: 10, minOrderAmount: 0, maxUses: 100, isActive: true, expiresAt: "2026-12-31T23:59:59Z" };
   const [form, setForm] = useState(emptyForm);
 
   const openAdd = () => { setEditing(null); setForm(emptyForm); setIsOpen(true); };
