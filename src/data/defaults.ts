@@ -76,9 +76,9 @@ export const defaultProducts: Product[] = [
 ];
 
 export const defaultBanners: Banner[] = [
-  { id: "1", image: "https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?w=1200&h=500&fit=crop", link: "/products", altText: "Mega Sale - Up to 70% Off", sortOrder: 1, isActive: true },
-  { id: "2", image: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=1200&h=500&fit=crop", link: "/new-arrivals", altText: "New Arrivals - Fresh Styles", sortOrder: 2, isActive: true },
-  { id: "3", image: "https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=1200&h=500&fit=crop", link: "/best-sellers", altText: "Best Sellers Collection", sortOrder: 3, isActive: true },
+  { id: "1", image: "https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?w=1200&h=500&fit=crop", link: "/products", altText: "Mega Sale - Up to 70% Off", subtitle: "Shop the biggest deals of the season", ctaText: "Shop Now", sortOrder: 1, isActive: true },
+  { id: "2", image: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=1200&h=500&fit=crop", link: "/new-arrivals", altText: "New Arrivals - Fresh Styles", subtitle: "Discover what's trending this week", ctaText: "Explore", sortOrder: 2, isActive: true },
+  { id: "3", image: "https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=1200&h=500&fit=crop", link: "/best-sellers", altText: "Best Sellers Collection", subtitle: "Top picks loved by our customers", ctaText: "View Collection", sortOrder: 3, isActive: true },
 ];
 
 export const defaultOrders: Order[] = [

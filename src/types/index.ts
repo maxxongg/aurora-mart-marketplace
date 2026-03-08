@@ -45,6 +45,8 @@ export interface Banner {
   image: string;
   link: string;
   altText: string;
+  subtitle?: string;
+  ctaText?: string;
   sortOrder: number;
   isActive: boolean;
 }
