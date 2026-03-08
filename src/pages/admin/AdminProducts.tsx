@@ -21,7 +21,7 @@ export default function AdminProducts() {
 
   const filtered = products.filter((p) => p.name.toLowerCase().includes(search.toLowerCase()));
 
-  const emptyForm = { name: "", description: "", categoryId: "", price: 0, originalPrice: 0, stock: 0, image: "", images: [] as string[], isFeatured: false, isFlashSale: false, status: "active" as const };
+  const emptyForm = { name: "", description: "", categoryId: "", price: 0, originalPrice: 0, stock: 0, image: "", images: [] as string[], isFeatured: false, isFlashSale: false, status: "active" as Product["status"] };
   const [form, setForm] = useState(emptyForm);
 
   const openAdd = () => { setEditingProduct(null); setForm(emptyForm); setIsOpen(true); };

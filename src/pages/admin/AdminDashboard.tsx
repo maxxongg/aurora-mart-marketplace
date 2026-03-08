@@ -50,7 +50,7 @@ export default function AdminDashboard() {
           <CardHeader><CardTitle>Recent Orders</CardTitle></CardHeader>
           <CardContent>
             <div className="space-y-3">
-              {mockOrders.map((order) => (
+              {orders.map((order) => (
                 <div key={order.id} className="flex items-center justify-between py-2 border-b last:border-0">
                   <div><p className="font-medium text-sm">{order.id}</p><p className="text-xs text-muted-foreground">{new Date(order.createdAt).toLocaleDateString()}</p></div>
                   <div className="text-right"><p className="font-medium text-sm">${order.total.toFixed(2)}</p><Badge variant="secondary" className="text-xs">{order.status}</Badge></div>

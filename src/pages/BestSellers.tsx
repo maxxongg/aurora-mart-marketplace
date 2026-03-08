@@ -8,7 +8,7 @@ export default function BestSellers() {
     <div className="container mx-auto py-8">
       <h1 className="font-display text-3xl font-bold mb-8">Best Sellers</h1>
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-        {products.map((p) => <ProductCard key={p.id} product={p} />)}
+        {sorted.map((p) => <ProductCard key={p.id} product={p} />)}
       </div>
     </div>
   );

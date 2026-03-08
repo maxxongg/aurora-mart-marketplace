@@ -30,7 +30,7 @@ export default function OrderHistory() {
             </div>
             <div className="space-y-2">
               {order.items.map((item) => {
-                const product = mockProducts.find((p) => p.id === item.productId);
+                const product = products.find((p) => p.id === item.productId);
                 return (
                   <div key={item.id} className="flex items-center gap-3 text-sm">
                     {product && <img src={product.image} alt="" className="h-10 w-10 rounded object-cover" />}
