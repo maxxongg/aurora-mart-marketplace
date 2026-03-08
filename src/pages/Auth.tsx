@@ -17,6 +17,11 @@ export default function Auth() {
   const { settings } = useStore();
   const [panel, setPanel] = useState<AuthPanel>("customer");
 
+  // Password visibility
+  const [showCustPass, setShowCustPass] = useState(false);
+  const [showRegPass, setShowRegPass] = useState(false);
+  const [showSellerPass, setShowSellerPass] = useState(false);
+
   // Customer login
   const [custEmail, setCustEmail] = useState("");
   const [custPass, setCustPass] = useState("");
