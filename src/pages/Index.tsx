@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { ArrowRight, ChevronLeft, ChevronRight, Shield, Truck, RefreshCw, Headphones, Zap } from "lucide-react";
+import { ArrowRight, ChevronLeft, ChevronRight, Shield, Truck, RefreshCw, Headphones, Zap, Heart, Star, Clock, Award, type LucideIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useStore } from "@/context/StoreContext";
 import ProductCard from "@/components/ProductCard";
@@ -68,19 +68,16 @@ function CountdownTimer() {
   );
 }
 
+const iconMap: Record<string, LucideIcon> = { Truck, Shield, RefreshCw, Headphones, Heart, Star, Clock, Award, Zap };
+
 export default function Index() {
-  const { products, categories, offerBanners } = useStore();
+  const { products, categories, offerBanners, settings } = useStore();
   const flashSaleProducts = products.filter((p) => p.isFlashSale && p.status === "active");
   const newArrivals = [...products].filter((p) => p.status === "active").sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()).slice(0, 8);
   const bestSellers = [...products].filter((p) => p.status === "active").sort((a, b) => b.totalSold - a.totalSold).slice(0, 8);
   const activeOffer = offerBanners.find((o) => o.isActive);
 
-  const trustBadges = [
-    { icon: Truck, title: "Free Shipping", desc: "On orders $50+" },
-    { icon: Shield, title: "Secure Payment", desc: "100% protected" },
-    { icon: RefreshCw, title: "Easy Returns", desc: "30-day policy" },
-    { icon: Headphones, title: "24/7 Support", desc: "We're here to help" },
-  ];
+  const trustBadges = settings.trustBadges.map((b) => ({ ...b, Icon: iconMap[b.icon] || Shield }));
 
   return (
     <div className="space-y-8 sm:space-y-12 pb-8">
@@ -135,7 +132,7 @@ export default function Index() {
 
       <section className="container mx-auto">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
-          {trustBadges.map(({ icon: Icon, title, desc }) => (
+          {trustBadges.map(({ Icon, title, desc }) => (
             <motion.div key={title} whileHover={{ y: -2 }} className="flex flex-col sm:flex-row items-center sm:items-center gap-2 sm:gap-3 p-3 sm:p-4 rounded-lg border bg-card text-center sm:text-left">
               <div className="h-9 w-9 sm:h-10 sm:w-10 rounded-full gradient-primary flex items-center justify-center shrink-0"><Icon className="h-4 w-4 sm:h-5 sm:w-5 text-primary-foreground" /></div>
               <div><p className="font-medium text-xs sm:text-sm">{title}</p><p className="text-[10px] sm:text-xs text-muted-foreground">{desc}</p></div>

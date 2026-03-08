@@ -3,19 +3,27 @@ import { useStore } from "@/context/StoreContext";
 import { DollarSign, Package, ShoppingBag, Users } from "lucide-react";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
 import { Badge } from "@/components/ui/badge";
-
-const revenueData = [
-  { month: "Jan", revenue: 4200 }, { month: "Feb", revenue: 5800 }, { month: "Mar", revenue: 7200 },
-  { month: "Apr", revenue: 6100 }, { month: "May", revenue: 8400 }, { month: "Jun", revenue: 9200 },
-];
+import { useMemo } from "react";
 
 export default function AdminDashboard() {
-  const { orders, products } = useStore();
+  const { orders, products, settings } = useStore();
   const totalRevenue = orders.reduce((s, o) => s + o.total, 0);
+  const uniqueCustomers = useMemo(() => new Set(orders.map((o) => o.userId)).size, [orders]);
+
+  const revenueData = useMemo(() => {
+    const monthMap: Record<string, number> = {};
+    orders.forEach((o) => {
+      const d = new Date(o.createdAt);
+      const key = d.toLocaleString("en", { month: "short", year: "2-digit" });
+      monthMap[key] = (monthMap[key] || 0) + o.total;
+    });
+    return Object.entries(monthMap).map(([month, revenue]) => ({ month, revenue: Math.round(revenue * 100) / 100 }));
+  }, [orders]);
+
   const stats = [
-    { icon: DollarSign, label: "Total Revenue", value: `$${totalRevenue.toFixed(2)}`, color: "text-success" },
+    { icon: DollarSign, label: "Total Revenue", value: `${settings.currency}${totalRevenue.toFixed(2)}`, color: "text-success" },
     { icon: ShoppingBag, label: "Total Orders", value: orders.length, color: "text-primary" },
-    { icon: Users, label: "Customers", value: 3, color: "text-blue-500" },
+    { icon: Users, label: "Customers", value: uniqueCustomers, color: "text-blue-500" },
     { icon: Package, label: "Products", value: products.length, color: "text-warning" },
   ];
 
@@ -36,14 +44,18 @@ export default function AdminDashboard() {
         <Card>
           <CardHeader><CardTitle>Revenue Overview</CardTitle></CardHeader>
           <CardContent>
-            <ResponsiveContainer width="100%" height={250}>
-              <BarChart data={revenueData}>
-                <XAxis dataKey="month" fontSize={12} />
-                <YAxis fontSize={12} />
-                <Tooltip />
-                <Bar dataKey="revenue" fill="hsl(25, 95%, 53%)" radius={[4, 4, 0, 0]} />
-              </BarChart>
-            </ResponsiveContainer>
+            {revenueData.length > 0 ? (
+              <ResponsiveContainer width="100%" height={250}>
+                <BarChart data={revenueData}>
+                  <XAxis dataKey="month" fontSize={12} />
+                  <YAxis fontSize={12} />
+                  <Tooltip formatter={(val: number) => `${settings.currency}${val.toFixed(2)}`} />
+                  <Bar dataKey="revenue" fill="hsl(25, 95%, 53%)" radius={[4, 4, 0, 0]} />
+                </BarChart>
+              </ResponsiveContainer>
+            ) : (
+              <p className="text-muted-foreground text-sm text-center py-12">No order data yet</p>
+            )}
           </CardContent>
         </Card>
         <Card>
@@ -53,7 +65,7 @@ export default function AdminDashboard() {
               {orders.map((order) => (
                 <div key={order.id} className="flex items-center justify-between py-2 border-b last:border-0">
                   <div><p className="font-medium text-sm">{order.id}</p><p className="text-xs text-muted-foreground">{new Date(order.createdAt).toLocaleDateString()}</p></div>
-                  <div className="text-right"><p className="font-medium text-sm">${order.total.toFixed(2)}</p><Badge variant="secondary" className="text-xs">{order.status}</Badge></div>
+                  <div className="text-right"><p className="font-medium text-sm">{settings.currency}{order.total.toFixed(2)}</p><Badge variant="secondary" className="text-xs">{order.status}</Badge></div>
                 </div>
               ))}
             </div>
