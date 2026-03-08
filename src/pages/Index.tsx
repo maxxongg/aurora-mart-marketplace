@@ -103,15 +103,15 @@ export default function Index() {
       </section>
 
       {flashSaleProducts.length > 0 && (
-        <section className="container mx-auto">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4 sm:mb-6">
-            <div className="flex items-center gap-3 sm:gap-4">
-              <div className="flex items-center gap-2"><Zap className="h-5 w-5 sm:h-6 sm:w-6 text-primary" /><h2 className="font-display text-xl sm:text-2xl font-bold">Flash Sale</h2></div>
+        <section className="container mx-auto px-4">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 sm:gap-3 mb-4 sm:mb-6">
+            <div className="flex items-center gap-2 sm:gap-4">
+              <div className="flex items-center gap-1.5 sm:gap-2"><Zap className="h-4 w-4 sm:h-6 sm:w-6 text-primary" /><h2 className="font-display text-lg sm:text-2xl font-bold">Flash Sale</h2></div>
               <CountdownTimer />
             </div>
-            <Button variant="ghost" size="sm" asChild><Link to="/products?flash=true">View All <ArrowRight className="h-4 w-4 ml-1" /></Link></Button>
+            <Button variant="ghost" size="sm" asChild className="self-end sm:self-auto"><Link to="/products?flash=true">View All <ArrowRight className="h-4 w-4 ml-1" /></Link></Button>
           </div>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-2.5 sm:gap-4">
             {flashSaleProducts.slice(0, 4).map((p) => <ProductCard key={p.id} product={p} />)}
           </div>
         </section>
