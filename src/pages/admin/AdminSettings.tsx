@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useStore } from "@/context/StoreContext";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -7,8 +7,9 @@ import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { toast } from "sonner";
-import { Plus, Trash2 } from "lucide-react";
+import { Plus, Trash2, Upload, X } from "lucide-react";
 import { TrustBadge, FAQItem, ContentSection } from "@/types";
+import { validateImageFile, fileToBase64, formatFileSize, IMAGE_PRESETS } from "@/lib/image-validation";
 
 const currencies = [
   { symbol: "$", code: "USD", name: "US Dollar" },
@@ -37,8 +38,32 @@ export default function AdminSettings() {
   const { settings, updateSettings } = useStore();
   const [form, setForm] = useState({ ...settings });
 
+  const logoInputRef = useRef<HTMLInputElement>(null);
+
   const handleSave = () => { updateSettings(form); toast.success("Settings saved successfully!"); };
   const set = (key: string, value: any) => setForm((prev) => ({ ...prev, [key]: value }));
+
+  const handleLogoUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const validation = await validateImageFile(file);
+    if (!validation.valid) {
+      toast.error(validation.errors.join(", "));
+      return;
+    }
+    const logoPreset = IMAGE_PRESETS.find(p => p.id === "logo")!;
+    if (validation.width! < logoPreset.width || validation.height! < logoPreset.height) {
+      toast.warning(`Recommended size: ${logoPreset.width}×${logoPreset.height}px. Your image: ${validation.width}×${validation.height}px`);
+    }
+    try {
+      const data = await fileToBase64(file);
+      set("storeLogo", data);
+      toast.success(`Logo uploaded (${formatFileSize(file.size)})`);
+    } catch {
+      toast.error("Failed to process image");
+    }
+    if (logoInputRef.current) logoInputRef.current.value = "";
+  };
 
   // Trust badges helpers
   const updateBadge = (i: number, field: keyof TrustBadge, val: string) => {
@@ -76,7 +101,32 @@ export default function AdminSettings() {
           <CardHeader><CardTitle>General</CardTitle></CardHeader>
           <CardContent className="space-y-4">
             <div><Label>Store Name</Label><Input value={form.storeName} onChange={(e) => set("storeName", e.target.value)} /></div>
-            <div><Label>Logo URL (optional)</Label><Input value={form.storeLogo} onChange={(e) => set("storeLogo", e.target.value)} placeholder="https://..." /></div>
+            <div>
+              <Label>Store Logo</Label>
+              <div className="mt-1 space-y-3">
+                {form.storeLogo && (
+                  <div className="flex items-center gap-3 p-3 border rounded-lg bg-muted/30">
+                    <img src={form.storeLogo} alt="Logo" className="h-12 max-w-[200px] object-contain" />
+                    <Button variant="ghost" size="icon" className="h-8 w-8 text-destructive shrink-0" onClick={() => set("storeLogo", "")}>
+                      <X className="h-4 w-4" />
+                    </Button>
+                  </div>
+                )}
+                <div className="flex gap-2">
+                  <Button type="button" variant="outline" size="sm" onClick={() => logoInputRef.current?.click()}>
+                    <Upload className="h-4 w-4 mr-2" /> Upload Logo
+                  </Button>
+                  <Input
+                    value={form.storeLogo?.startsWith("data:") ? "" : form.storeLogo}
+                    onChange={(e) => set("storeLogo", e.target.value)}
+                    placeholder="Or paste image URL..."
+                    className="flex-1"
+                  />
+                </div>
+                <input ref={logoInputRef} type="file" accept="image/*" className="hidden" onChange={handleLogoUpload} />
+                <p className="text-xs text-muted-foreground">Recommended: 200×60px, max 4 MB. PNG or SVG preferred.</p>
+              </div>
+            </div>
             <div><Label>Announcement Text</Label><Input value={form.announcementText} onChange={(e) => set("announcementText", e.target.value)} /></div>
             <div><Label>Announcement Link</Label><Input value={form.announcementLink} onChange={(e) => set("announcementLink", e.target.value)} /></div>
             <div><Label>Footer Description</Label><Textarea value={form.footerDescription} onChange={(e) => set("footerDescription", e.target.value)} rows={2} /></div>

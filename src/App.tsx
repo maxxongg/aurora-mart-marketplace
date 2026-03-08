@@ -7,6 +7,7 @@ import { AuthProvider } from "@/context/AuthContext";
 import { CartProvider } from "@/context/CartContext";
 import { WishlistProvider } from "@/context/WishlistContext";
 import { StoreProvider } from "@/context/StoreContext";
+import { MediaProvider } from "@/context/MediaContext";
 
 import MainLayout from "@/components/layout/MainLayout";
 import AdminLayout from "@/components/layout/AdminLayout";
@@ -41,6 +42,8 @@ import AdminCustomers from "./pages/admin/AdminCustomers";
 import AdminSettings from "./pages/admin/AdminSettings";
 import AdminCoupons from "./pages/admin/AdminCoupons";
 import AdminOffers from "./pages/admin/AdminOffers";
+import AdminMedia from "./pages/admin/AdminMedia";
+import AdminNavigation from "./pages/admin/AdminNavigation";
 
 import SellerDashboard from "./pages/seller/SellerDashboard";
 import SellerProducts from "./pages/seller/SellerProducts";
@@ -51,7 +54,8 @@ const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <StoreProvider>
+  <StoreProvider>
+    <MediaProvider>
       <AuthProvider>
         <CartProvider>
           <WishlistProvider>
@@ -90,6 +94,8 @@ const App = () => (
                     <Route path="/admin/customers" element={<AdminCustomers />} />
                     <Route path="/admin/coupons" element={<AdminCoupons />} />
                     <Route path="/admin/offers" element={<AdminOffers />} />
+                    <Route path="/admin/media" element={<AdminMedia />} />
+                    <Route path="/admin/navigation" element={<AdminNavigation />} />
                     <Route path="/admin/settings" element={<AdminSettings />} />
                   </Route>
 
@@ -107,7 +113,8 @@ const App = () => (
           </WishlistProvider>
         </CartProvider>
       </AuthProvider>
-    </StoreProvider>
+    </MediaProvider>
+  </StoreProvider>
   </QueryClientProvider>
 );
 
