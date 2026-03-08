@@ -14,10 +14,10 @@ export default function AdminBanners() {
   const { banners, addBanner, updateBanner, deleteBanner } = useStore();
   const [editing, setEditing] = useState<Banner | null>(null);
   const [isOpen, setIsOpen] = useState(false);
-  const [form, setForm] = useState({ image: "", link: "/products", altText: "", sortOrder: 1, isActive: true });
+  const [form, setForm] = useState({ image: "", link: "/products", altText: "", subtitle: "", ctaText: "Shop Now", sortOrder: 1, isActive: true });
 
-  const openAdd = () => { setEditing(null); setForm({ image: "", link: "/products", altText: "", sortOrder: banners.length + 1, isActive: true }); setIsOpen(true); };
-  const openEdit = (b: Banner) => { setEditing(b); setForm({ image: b.image, link: b.link, altText: b.altText, sortOrder: b.sortOrder, isActive: b.isActive }); setIsOpen(true); };
+  const openAdd = () => { setEditing(null); setForm({ image: "", link: "/products", altText: "", subtitle: "", ctaText: "Shop Now", sortOrder: banners.length + 1, isActive: true }); setIsOpen(true); };
+  const openEdit = (b: Banner) => { setEditing(b); setForm({ image: b.image, link: b.link, altText: b.altText, subtitle: b.subtitle || "", ctaText: b.ctaText || "Shop Now", sortOrder: b.sortOrder, isActive: b.isActive }); setIsOpen(true); };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -55,6 +55,8 @@ export default function AdminBanners() {
           <DialogHeader><DialogTitle>{editing ? "Edit Banner" : "Add Banner"}</DialogTitle></DialogHeader>
           <form className="space-y-4" onSubmit={handleSubmit}>
             <div><Label>Title / Alt Text</Label><Input required value={form.altText} onChange={(e) => setForm({ ...form, altText: e.target.value })} /></div>
+            <div><Label>Subtitle</Label><Input value={form.subtitle} onChange={(e) => setForm({ ...form, subtitle: e.target.value })} placeholder="Optional description text" /></div>
+            <div><Label>CTA Button Text</Label><Input value={form.ctaText} onChange={(e) => setForm({ ...form, ctaText: e.target.value })} placeholder="Shop Now" /></div>
             <div><Label>Image URL</Label><Input required value={form.image} onChange={(e) => setForm({ ...form, image: e.target.value })} placeholder="https://..." /></div>
             <div><Label>Link</Label><Input value={form.link} onChange={(e) => setForm({ ...form, link: e.target.value })} /></div>
             <div><Label>Sort Order</Label><Input type="number" value={form.sortOrder} onChange={(e) => setForm({ ...form, sortOrder: Number(e.target.value) })} /></div>

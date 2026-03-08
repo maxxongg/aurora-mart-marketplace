@@ -26,8 +26,9 @@ function HeroSlider() {
           <img src={banner.image} alt={banner.altText} className="w-full h-full object-cover" />
           <div className="absolute inset-0 bg-gradient-to-r from-foreground/70 via-foreground/40 to-transparent flex items-end sm:items-center">
             <div className="p-5 sm:p-8 md:p-12 max-w-lg">
-              <h2 className="font-display text-xl sm:text-2xl md:text-4xl font-bold text-background mb-2 sm:mb-3">{banner.altText}</h2>
-              <Button size="sm" className="gradient-primary border-0 text-primary-foreground sm:h-10 sm:px-4 sm:text-sm">Shop Now <ArrowRight className="h-4 w-4 ml-1" /></Button>
+              <h2 className="font-display text-xl sm:text-2xl md:text-4xl font-bold text-background mb-1 sm:mb-2">{banner.altText}</h2>
+              {banner.subtitle && <p className="text-background/80 text-xs sm:text-sm md:text-base mb-2 sm:mb-3">{banner.subtitle}</p>}
+              <Button size="sm" className="gradient-primary border-0 text-primary-foreground sm:h-10 sm:px-4 sm:text-sm">{banner.ctaText || "Shop Now"} <ArrowRight className="h-4 w-4 ml-1" /></Button>
             </div>
           </div>
         </Link>
