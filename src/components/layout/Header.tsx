@@ -95,6 +95,9 @@ export default function Header() {
 
           {/* Actions */}
           <div className="flex items-center gap-1">
+            <Button variant="ghost" size="icon" onClick={() => setIsDark(!isDark)}>
+              {isDark ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
+            </Button>
             <Button variant="ghost" size="icon" asChild className="relative">
               <Link to="/wishlist">
                 <Heart className="h-5 w-5" />
