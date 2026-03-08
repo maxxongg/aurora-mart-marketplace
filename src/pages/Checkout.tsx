@@ -25,25 +25,25 @@ export default function Checkout() {
   if (items.length === 0) { navigate("/cart"); return null; }
 
   return (
-    <div className="container mx-auto py-8 max-w-4xl">
-      <h1 className="font-display text-3xl font-bold mb-8">Checkout</h1>
-      <form onSubmit={handleSubmit} className="grid lg:grid-cols-5 gap-8">
-        <div className="lg:col-span-3 space-y-6">
-          <div className="bg-card border rounded-lg p-6">
+    <div className="container mx-auto py-6 sm:py-8 max-w-4xl">
+      <h1 className="font-display text-2xl sm:text-3xl font-bold mb-6 sm:mb-8">Checkout</h1>
+      <form onSubmit={handleSubmit} className="grid grid-cols-1 lg:grid-cols-5 gap-6 sm:gap-8">
+        <div className="lg:col-span-3 space-y-5 sm:space-y-6">
+          <div className="bg-card border rounded-lg p-4 sm:p-6">
             <h2 className="font-display font-bold mb-4">Shipping Information</h2>
-            <div className="grid gap-4">
-              <div className="grid grid-cols-2 gap-4">
+            <div className="grid gap-3 sm:gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                 <div><Label htmlFor="name">Full Name</Label><Input id="name" required placeholder="John Doe" /></div>
                 <div><Label htmlFor="phone">Phone</Label><Input id="phone" required placeholder="+880 1234567890" /></div>
               </div>
               <div><Label htmlFor="address">Address</Label><Input id="address" required placeholder="123 Main St" /></div>
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                 <div><Label htmlFor="city">City</Label><Input id="city" required placeholder="Dhaka" /></div>
                 <div><Label htmlFor="zip">ZIP Code</Label><Input id="zip" required placeholder="1205" /></div>
               </div>
             </div>
           </div>
-          <div className="bg-card border rounded-lg p-6">
+          <div className="bg-card border rounded-lg p-4 sm:p-6">
             <h2 className="font-display font-bold mb-4">Payment Method</h2>
             <RadioGroup value={payment} onValueChange={setPayment} className="space-y-3">
               {[
@@ -61,17 +61,17 @@ export default function Checkout() {
           </div>
         </div>
         <div className="lg:col-span-2">
-          <div className="bg-card border rounded-lg p-6 sticky top-24">
+          <div className="bg-card border rounded-lg p-4 sm:p-6 lg:sticky lg:top-24">
             <h2 className="font-display font-bold mb-4">Order Summary</h2>
-            <div className="space-y-3 max-h-64 overflow-y-auto">
+            <div className="space-y-3 max-h-52 sm:max-h-64 overflow-y-auto">
               {items.map((item) => (
                 <div key={item.id} className="flex gap-3 text-sm">
-                  <img src={item.product.image} alt="" className="h-12 w-12 rounded object-cover" />
+                  <img src={item.product.image} alt="" className="h-11 w-11 sm:h-12 sm:w-12 rounded object-cover shrink-0" />
                   <div className="flex-1 min-w-0">
-                    <p className="line-clamp-1">{item.product.name}</p>
-                    <p className="text-muted-foreground">{item.quantity} × ${item.product.price.toFixed(2)}</p>
+                    <p className="line-clamp-1 text-xs sm:text-sm">{item.product.name}</p>
+                    <p className="text-muted-foreground text-xs">{item.quantity} × ${item.product.price.toFixed(2)}</p>
                   </div>
-                  <span className="font-medium">${(item.product.price * item.quantity).toFixed(2)}</span>
+                  <span className="font-medium text-xs sm:text-sm shrink-0">${(item.product.price * item.quantity).toFixed(2)}</span>
                 </div>
               ))}
             </div>
