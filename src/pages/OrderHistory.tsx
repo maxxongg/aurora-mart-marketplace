@@ -11,11 +11,12 @@ const statusColors: Record<string, string> = {
 };
 
 export default function OrderHistory() {
+  const { orders, products } = useStore();
   return (
     <div className="container mx-auto py-8">
       <h1 className="font-display text-3xl font-bold mb-8">My Orders</h1>
       <div className="space-y-4">
-        {mockOrders.map((order) => (
+        {orders.map((order) => (
           <div key={order.id} className="bg-card border rounded-lg p-6">
             <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
               <div>
