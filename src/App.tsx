@@ -113,7 +113,8 @@ const App = () => (
           </WishlistProvider>
         </CartProvider>
       </AuthProvider>
-    </StoreProvider>
+    </MediaProvider>
+  </StoreProvider>
   </QueryClientProvider>
 );
 

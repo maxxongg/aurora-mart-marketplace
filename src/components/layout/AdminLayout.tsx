@@ -22,11 +22,13 @@ const links = [
   { to: "/admin", icon: LayoutDashboard, label: "Dashboard" },
   { to: "/admin/products", icon: Package, label: "Products" },
   { to: "/admin/categories", icon: FolderTree, label: "Categories" },
+  { to: "/admin/navigation", icon: Navigation, label: "Navigation" },
   { to: "/admin/banners", icon: Image, label: "Banners" },
   { to: "/admin/orders", icon: ShoppingBag, label: "Orders" },
   { to: "/admin/customers", icon: Users, label: "Customers" },
   { to: "/admin/coupons", icon: Ticket, label: "Coupons" },
   { to: "/admin/offers", icon: Megaphone, label: "Offers" },
+  { to: "/admin/media", icon: ImageIcon, label: "Media Library" },
   { to: "/admin/settings", icon: Settings, label: "Settings" },
 ];
 
