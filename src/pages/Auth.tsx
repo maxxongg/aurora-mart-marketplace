@@ -117,7 +117,7 @@ export default function Auth() {
                   <div><Label>Full Name</Label><Input value={regName} onChange={(e) => setRegName(e.target.value)} required placeholder="John Doe" /></div>
                   <div><Label>Email</Label><Input type="email" value={regEmail} onChange={(e) => setRegEmail(e.target.value)} required placeholder="you@example.com" /></div>
                   <div><Label>Phone</Label><Input value={regPhone} onChange={(e) => setRegPhone(e.target.value)} required placeholder="+880 1234567890" /></div>
-                  <div><Label>Password</Label><Input type="password" value={regPass} onChange={(e) => setRegPass(e.target.value)} required placeholder="••••••••" /></div>
+                  <div><Label>Password</Label><div className="relative"><Input type={showRegPass ? "text" : "password"} value={regPass} onChange={(e) => setRegPass(e.target.value)} required placeholder="••••••••" className="pr-10" /><button type="button" onClick={() => setShowRegPass(!showRegPass)} className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors">{showRegPass ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}</button></div></div>
                   <Button type="submit" className="w-full gradient-primary border-0 text-primary-foreground">Create Account</Button>
                 </form>
               </TabsContent>
