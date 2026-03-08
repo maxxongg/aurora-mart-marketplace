@@ -137,7 +137,7 @@ export default function Auth() {
             </div>
             <form onSubmit={handleSellerLogin} className="space-y-4">
               <div><Label>Email</Label><Input type="email" value={sellerEmail} onChange={(e) => setSellerEmail(e.target.value)} required placeholder="seller@example.com" /></div>
-              <div><Label>Password</Label><Input type="password" value={sellerPass} onChange={(e) => setSellerPass(e.target.value)} required placeholder="••••••••" /></div>
+              <div><Label>Password</Label><div className="relative"><Input type={showSellerPass ? "text" : "password"} value={sellerPass} onChange={(e) => setSellerPass(e.target.value)} required placeholder="••••••••" className="pr-10" /><button type="button" onClick={() => setShowSellerPass(!showSellerPass)} className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors">{showSellerPass ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}</button></div></div>
               <Button type="submit" className="w-full gradient-primary border-0 text-primary-foreground">
                 <Store className="h-4 w-4 mr-2" /> Sign In
               </Button>
