@@ -4,7 +4,29 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { toast } from "sonner";
+
+const currencies = [
+  { symbol: "$", code: "USD", name: "US Dollar" },
+  { symbol: "€", code: "EUR", name: "Euro" },
+  { symbol: "£", code: "GBP", name: "British Pound" },
+  { symbol: "¥", code: "JPY", name: "Japanese Yen" },
+  { symbol: "¥", code: "CNY", name: "Chinese Yuan" },
+  { symbol: "₹", code: "INR", name: "Indian Rupee" },
+  { symbol: "৳", code: "BDT", name: "Bangladeshi Taka" },
+  { symbol: "A$", code: "AUD", name: "Australian Dollar" },
+  { symbol: "C$", code: "CAD", name: "Canadian Dollar" },
+  { symbol: "R$", code: "BRL", name: "Brazilian Real" },
+  { symbol: "₩", code: "KRW", name: "South Korean Won" },
+  { symbol: "₺", code: "TRY", name: "Turkish Lira" },
+  { symbol: "R", code: "ZAR", name: "South African Rand" },
+  { symbol: "د.إ", code: "AED", name: "UAE Dirham" },
+  { symbol: "ر.س", code: "SAR", name: "Saudi Riyal" },
+  { symbol: "₱", code: "PHP", name: "Philippine Peso" },
+  { symbol: "RM", code: "MYR", name: "Malaysian Ringgit" },
+  { symbol: "฿", code: "THB", name: "Thai Baht" },
+];
 
 export default function AdminSettings() {
   const { settings, updateSettings } = useStore();
