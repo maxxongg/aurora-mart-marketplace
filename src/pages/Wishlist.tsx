@@ -19,9 +19,9 @@ export default function Wishlist() {
   }
 
   return (
-    <div className="container mx-auto py-8">
-      <h1 className="font-display text-3xl font-bold mb-8">My Wishlist ({items.length})</h1>
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+    <div className="container mx-auto py-6 sm:py-8 px-4">
+      <h1 className="font-display text-2xl sm:text-3xl font-bold mb-6 sm:mb-8">My Wishlist ({items.length})</h1>
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2.5 sm:gap-4">
         {items.map((p) => <ProductCard key={p.id} product={p} />)}
       </div>
     </div>
