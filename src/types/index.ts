@@ -81,13 +81,40 @@ export interface OrderItem {
   price: number;
 }
 
+export interface Coupon {
+  id: string;
+  code: string;
+  discountType: "percentage" | "fixed";
+  discountValue: number;
+  minOrderAmount: number;
+  maxUses: number;
+  usedCount: number;
+  isActive: boolean;
+  expiresAt: string;
+}
+
+export interface OfferBanner {
+  id: string;
+  title: string;
+  subtitle: string;
+  image: string;
+  link: string;
+  isActive: boolean;
+}
+
 export interface Settings {
   storeName: string;
+  storeLogo: string;
   announcementText: string;
+  announcementLink: string;
   flashSaleEnd: string;
   contactEmail: string;
   contactPhone: string;
+  contactAddress: string;
   socialFacebook: string;
   socialInstagram: string;
   socialTwitter: string;
+  currency: string;
+  freeShippingThreshold: number;
+  shippingCost: number;
 }
