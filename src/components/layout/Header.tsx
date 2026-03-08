@@ -277,7 +277,7 @@ export default function Header() {
                 </DropdownMenuContent>
               </DropdownMenu>
             ) : (
-              <Button asChild size="sm" className="gradient-primary border-0 text-primary-foreground ml-1"><Link to="/auth">Sign In</Link></Button>
+              <Button asChild size="sm" className="gradient-primary border-0 text-primary-foreground ml-0.5 sm:ml-1 text-xs sm:text-sm h-8 sm:h-9 px-2.5 sm:px-3"><Link to="/auth">Sign In</Link></Button>
             )}
           </div>
         </div>
