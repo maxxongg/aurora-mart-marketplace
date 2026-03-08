@@ -14,10 +14,10 @@ export default function AdminBanners() {
   const { banners, addBanner, updateBanner, deleteBanner } = useStore();
   const [editing, setEditing] = useState<Banner | null>(null);
   const [isOpen, setIsOpen] = useState(false);
-  const [form, setForm] = useState({ image: "", link: "/products", altText: "", sortOrder: 1, isActive: true });
+  const [form, setForm] = useState({ image: "", link: "/products", altText: "", subtitle: "", ctaText: "Shop Now", sortOrder: 1, isActive: true });
 
-  const openAdd = () => { setEditing(null); setForm({ image: "", link: "/products", altText: "", sortOrder: banners.length + 1, isActive: true }); setIsOpen(true); };
-  const openEdit = (b: Banner) => { setEditing(b); setForm({ image: b.image, link: b.link, altText: b.altText, sortOrder: b.sortOrder, isActive: b.isActive }); setIsOpen(true); };
+  const openAdd = () => { setEditing(null); setForm({ image: "", link: "/products", altText: "", subtitle: "", ctaText: "Shop Now", sortOrder: banners.length + 1, isActive: true }); setIsOpen(true); };
+  const openEdit = (b: Banner) => { setEditing(b); setForm({ image: b.image, link: b.link, altText: b.altText, subtitle: b.subtitle || "", ctaText: b.ctaText || "Shop Now", sortOrder: b.sortOrder, isActive: b.isActive }); setIsOpen(true); };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
