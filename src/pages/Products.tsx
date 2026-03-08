@@ -60,7 +60,11 @@ export default function Products() {
     return { min, max };
   }, [products]);
 
-  useEffect(() => { setPriceRange([priceBounds.min, priceBounds.max]); }, [priceBounds]);
+  useEffect(() => {
+    const min = minPriceParam ? Math.max(Number(minPriceParam), priceBounds.min) : priceBounds.min;
+    const max = maxPriceParam ? Math.min(Number(maxPriceParam), priceBounds.max) : priceBounds.max;
+    setPriceRange([min, max]);
+  }, [priceBounds, minPriceParam, maxPriceParam]);
 
   const filtered = useMemo(() => {
     let list = products.filter((p) => p.status === "active");
