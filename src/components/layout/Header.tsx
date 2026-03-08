@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
-import { ShoppingCart, Heart, User, Search, Menu, ChevronDown, Moon, Sun } from "lucide-react";
+import { ShoppingCart, Heart, User, Search, Menu, ChevronDown, Moon, Sun, SlidersHorizontal, X, Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useAuth } from "@/context/AuthContext";
@@ -10,23 +10,46 @@ import { useState, useEffect, useMemo, useRef } from "react";
 import { Badge } from "@/components/ui/badge";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Slider } from "@/components/ui/slider";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Separator } from "@/components/ui/separator";
 
 function SearchBox({ className }: { className?: string }) {
   const [query, setQuery] = useState("");
   const [open, setOpen] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState("all");
+  const [filtersOpen, setFiltersOpen] = useState(false);
+  const [priceRange, setPriceRange] = useState<[number, number]>([0, 500]);
+  const [minRating, setMinRating] = useState(0);
+  const [onlyOnSale, setOnlyOnSale] = useState(false);
   const navigate = useNavigate();
   const ref = useRef<HTMLDivElement>(null);
   const { products, categories, settings } = useStore();
 
+  const priceBounds = useMemo(() => {
+    const active = products.filter(p => p.status === "active");
+    if (active.length === 0) return { min: 0, max: 500 };
+    return { min: Math.floor(Math.min(...active.map(p => p.price))), max: Math.ceil(Math.max(...active.map(p => p.price))) };
+  }, [products]);
+
+  useEffect(() => { setPriceRange([priceBounds.min, priceBounds.max]); }, [priceBounds]);
+
   const results = useMemo(() => {
     if (!query.trim()) return { products: [], categories: [] };
     const q = query.toLowerCase();
-    const matchedProducts = products.filter((p) => p.status === "active" && (p.name.toLowerCase().includes(q) || p.description.toLowerCase().includes(q))).slice(0, 5);
+    let matchedProducts = products.filter((p) => p.status === "active" && (p.name.toLowerCase().includes(q) || p.description.toLowerCase().includes(q)));
+    if (selectedCategory !== "all") matchedProducts = matchedProducts.filter(p => p.categoryId === selectedCategory);
+    matchedProducts = matchedProducts.filter(p => p.price >= priceRange[0] && p.price <= priceRange[1]);
+    if (minRating > 0) matchedProducts = matchedProducts.filter(p => p.rating >= minRating);
+    if (onlyOnSale) matchedProducts = matchedProducts.filter(p => p.originalPrice && p.originalPrice > p.price);
     const matchedCategories = categories.filter((c) => c.name.toLowerCase().includes(q)).slice(0, 3);
-    return { products: matchedProducts, categories: matchedCategories };
-  }, [query, products, categories]);
+    return { products: matchedProducts.slice(0, 5), categories: matchedCategories };
+  }, [query, products, categories, selectedCategory, priceRange, minRating, onlyOnSale]);
 
   const hasResults = results.products.length > 0 || results.categories.length > 0;
+  const activeFilterCount = (selectedCategory !== "all" ? 1 : 0) + (minRating > 0 ? 1 : 0) + (onlyOnSale ? 1 : 0) + (priceRange[0] > priceBounds.min || priceRange[1] < priceBounds.max ? 1 : 0);
 
   useEffect(() => {
     const handler = (e: MouseEvent) => { if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false); };
@@ -34,16 +57,129 @@ function SearchBox({ className }: { className?: string }) {
     return () => document.removeEventListener("mousedown", handler);
   }, []);
 
-  const handleSubmit = (e: React.FormEvent) => { e.preventDefault(); if (query.trim()) { navigate(`/products?search=${encodeURIComponent(query.trim())}`); setOpen(false); setQuery(""); } };
+  const buildSearchUrl = () => {
+    const params = new URLSearchParams();
+    if (query.trim()) params.set("search", query.trim());
+    if (selectedCategory !== "all") params.set("category", selectedCategory);
+    if (priceRange[0] > priceBounds.min) params.set("minPrice", String(priceRange[0]));
+    if (priceRange[1] < priceBounds.max) params.set("maxPrice", String(priceRange[1]));
+    if (minRating > 0) params.set("minRating", String(minRating));
+    if (onlyOnSale) params.set("sale", "true");
+    return `/products?${params.toString()}`;
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    navigate(buildSearchUrl());
+    setOpen(false);
+    setQuery("");
+  };
+
   const handleSelect = (productId: string) => { setOpen(false); setQuery(""); navigate(`/product/${productId}`); };
   const handleCategorySelect = (catId: string) => { setOpen(false); setQuery(""); navigate(`/products?category=${catId}`); };
 
+  const clearFilters = () => {
+    setSelectedCategory("all");
+    setPriceRange([priceBounds.min, priceBounds.max]);
+    setMinRating(0);
+    setOnlyOnSale(false);
+  };
+
   return (
     <div ref={ref} className={`relative ${className || ""}`}>
-      <form onSubmit={handleSubmit}>
-        <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground z-10" />
-        <Input placeholder="Search products, categories..." value={query} onChange={(e) => { setQuery(e.target.value); setOpen(true); }} onFocus={() => query && setOpen(true)} className="pl-10 bg-secondary border-0" />
+      <form onSubmit={handleSubmit} className="flex items-center gap-0 bg-secondary rounded-lg overflow-hidden border border-transparent focus-within:border-primary/50 transition-colors">
+        {/* Category Selector */}
+        <Select value={selectedCategory} onValueChange={setSelectedCategory}>
+          <SelectTrigger className="w-auto min-w-[100px] max-w-[140px] border-0 bg-transparent rounded-none border-r border-border/50 text-xs h-10 px-2.5 focus:ring-0 shrink-0">
+            <SelectValue placeholder="All" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">All Categories</SelectItem>
+            {categories.map((c) => <SelectItem key={c.id} value={c.id}>{c.name}</SelectItem>)}
+          </SelectContent>
+        </Select>
+
+        {/* Search Input */}
+        <div className="relative flex-1">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+          <Input
+            placeholder="Search products..."
+            value={query}
+            onChange={(e) => { setQuery(e.target.value); setOpen(true); }}
+            onFocus={() => query && setOpen(true)}
+            className="pl-10 border-0 bg-transparent rounded-none h-10 focus-visible:ring-0"
+          />
+        </div>
+
+        {/* Filter Button */}
+        <Popover open={filtersOpen} onOpenChange={setFiltersOpen}>
+          <PopoverTrigger asChild>
+            <Button type="button" variant="ghost" size="sm" className="rounded-none h-10 px-3 border-l border-border/50 relative shrink-0">
+              <SlidersHorizontal className="h-4 w-4" />
+              {activeFilterCount > 0 && (
+                <span className="absolute -top-0.5 -right-0.5 h-4 w-4 rounded-full gradient-primary text-primary-foreground text-[9px] flex items-center justify-center font-bold">{activeFilterCount}</span>
+              )}
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent className="w-72 p-4" align="end">
+            <div className="flex items-center justify-between mb-3">
+              <h3 className="font-semibold text-sm">Filters</h3>
+              {activeFilterCount > 0 && (
+                <Button variant="ghost" size="sm" onClick={clearFilters} className="text-xs h-6 text-destructive hover:text-destructive px-2">Clear</Button>
+              )}
+            </div>
+
+            {/* Price Range */}
+            <div className="space-y-2 mb-4">
+              <label className="text-xs font-medium text-muted-foreground">Price Range</label>
+              <Slider min={priceBounds.min} max={priceBounds.max} step={1} value={priceRange} onValueChange={(v) => setPriceRange(v as [number, number])} />
+              <div className="flex items-center justify-between text-xs text-muted-foreground">
+                <span>{settings.currency}{priceRange[0]}</span>
+                <span>{settings.currency}{priceRange[1]}</span>
+              </div>
+            </div>
+
+            <Separator className="my-3" />
+
+            {/* Rating */}
+            <div className="space-y-2 mb-4">
+              <label className="text-xs font-medium text-muted-foreground">Minimum Rating</label>
+              <div className="space-y-1.5">
+                {[4, 3, 2, 1].map(rating => (
+                  <label key={rating} className="flex items-center gap-2 cursor-pointer text-sm">
+                    <Checkbox checked={minRating === rating} onCheckedChange={(v) => setMinRating(v ? rating : 0)} />
+                    <div className="flex items-center gap-0.5">
+                      {Array.from({ length: 5 }).map((_, i) => (
+                        <Star key={i} className={`h-3 w-3 ${i < rating ? "fill-warning text-warning" : "text-muted-foreground/30"}`} />
+                      ))}
+                    </div>
+                    <span className="text-xs text-muted-foreground">& up</span>
+                  </label>
+                ))}
+              </div>
+            </div>
+
+            <Separator className="my-3" />
+
+            {/* On Sale */}
+            <label className="flex items-center gap-2 cursor-pointer text-sm mb-4">
+              <Checkbox checked={onlyOnSale} onCheckedChange={(v) => setOnlyOnSale(!!v)} />
+              <span>On Sale Only</span>
+            </label>
+
+            <Button onClick={(e) => { e.preventDefault(); setFiltersOpen(false); handleSubmit(e as any); }} className="w-full gradient-primary border-0 text-primary-foreground text-sm h-9">
+              Apply Filters
+            </Button>
+          </PopoverContent>
+        </Popover>
+
+        {/* Search Button */}
+        <Button type="submit" size="sm" className="rounded-none rounded-r-lg h-10 px-4 gradient-primary border-0 text-primary-foreground shrink-0">
+          <Search className="h-4 w-4" />
+        </Button>
       </form>
+
+      {/* Dropdown Results */}
       {open && hasResults && (
         <div className="absolute top-full left-0 right-0 mt-1 bg-popover border rounded-lg shadow-elevated z-50 overflow-hidden max-h-96 overflow-y-auto">
           {results.categories.length > 0 && (
