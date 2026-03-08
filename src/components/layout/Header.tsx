@@ -16,6 +16,12 @@ export default function Header() {
   const { itemCount } = useCart();
   const { items: wishlistItems } = useWishlist();
   const [search, setSearch] = useState("");
+  const [isDark, setIsDark] = useState(() => document.documentElement.classList.contains("dark"));
+
+  useEffect(() => {
+    document.documentElement.classList.toggle("dark", isDark);
+    localStorage.setItem("theme", isDark ? "dark" : "light");
+  }, [isDark]);
 
   const getDashboardLink = () => {
     if (!user) return "/auth";
