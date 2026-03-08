@@ -174,8 +174,8 @@ function SearchBox({ className }: { className?: string }) {
         </Popover>
 
         {/* Search Button */}
-        <Button type="submit" size="sm" className="rounded-none rounded-r-lg h-10 px-4 gradient-primary border-0 text-primary-foreground shrink-0">
-          <Search className="h-4 w-4" />
+        <Button type="submit" size="sm" className="rounded-none rounded-r-lg h-9 sm:h-10 px-3 sm:px-4 gradient-primary border-0 text-primary-foreground shrink-0">
+          <Search className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
         </Button>
       </form>
 
