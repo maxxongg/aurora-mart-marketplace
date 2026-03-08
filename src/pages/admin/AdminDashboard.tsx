@@ -10,12 +10,13 @@ const revenueData = [
 ];
 
 export default function AdminDashboard() {
-  const totalRevenue = mockOrders.reduce((s, o) => s + o.total, 0);
+  const { orders, products } = useStore();
+  const totalRevenue = orders.reduce((s, o) => s + o.total, 0);
   const stats = [
     { icon: DollarSign, label: "Total Revenue", value: `$${totalRevenue.toFixed(2)}`, color: "text-success" },
-    { icon: ShoppingBag, label: "Total Orders", value: mockOrders.length, color: "text-primary" },
-    { icon: Users, label: "Customers", value: mockUsers.filter((u) => u.role === "customer").length, color: "text-blue-500" },
-    { icon: Package, label: "Products", value: mockProducts.length, color: "text-warning" },
+    { icon: ShoppingBag, label: "Total Orders", value: orders.length, color: "text-primary" },
+    { icon: Users, label: "Customers", value: 3, color: "text-blue-500" },
+    { icon: Package, label: "Products", value: products.length, color: "text-warning" },
   ];
 
   return (
