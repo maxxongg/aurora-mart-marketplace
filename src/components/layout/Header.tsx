@@ -88,9 +88,9 @@ function SearchBox({ className }: { className?: string }) {
   return (
     <div ref={ref} className={`relative ${className || ""}`}>
       <form onSubmit={handleSubmit} className="flex items-center gap-0 bg-secondary rounded-lg overflow-hidden border border-transparent focus-within:border-primary/50 transition-colors">
-        {/* Category Selector */}
+        {/* Category Selector - hidden on very small screens */}
         <Select value={selectedCategory} onValueChange={setSelectedCategory}>
-          <SelectTrigger className="w-auto min-w-[100px] max-w-[140px] border-0 bg-transparent rounded-none border-r border-border/50 text-xs h-10 px-2.5 focus:ring-0 shrink-0">
+          <SelectTrigger className="w-auto min-w-[80px] max-w-[120px] sm:min-w-[100px] sm:max-w-[140px] border-0 bg-transparent rounded-none border-r border-border/50 text-[11px] sm:text-xs h-9 sm:h-10 px-2 sm:px-2.5 focus:ring-0 shrink-0 hidden xs:flex">
             <SelectValue placeholder="All" />
           </SelectTrigger>
           <SelectContent>
