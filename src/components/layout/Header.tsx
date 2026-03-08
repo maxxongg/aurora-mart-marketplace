@@ -114,8 +114,8 @@ function SearchBox({ className }: { className?: string }) {
         {/* Filter Button */}
         <Popover open={filtersOpen} onOpenChange={setFiltersOpen}>
           <PopoverTrigger asChild>
-            <Button type="button" variant="ghost" size="sm" className="rounded-none h-10 px-3 border-l border-border/50 relative shrink-0">
-              <SlidersHorizontal className="h-4 w-4" />
+            <Button type="button" variant="ghost" size="sm" className="rounded-none h-9 sm:h-10 px-2.5 sm:px-3 border-l border-border/50 relative shrink-0">
+              <SlidersHorizontal className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
               {activeFilterCount > 0 && (
                 <span className="absolute -top-0.5 -right-0.5 h-4 w-4 rounded-full gradient-primary text-primary-foreground text-[9px] flex items-center justify-center font-bold">{activeFilterCount}</span>
               )}
