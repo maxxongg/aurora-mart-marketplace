@@ -100,14 +100,14 @@ function SearchBox({ className }: { className?: string }) {
         </Select>
 
         {/* Search Input */}
-        <div className="relative flex-1">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+        <div className="relative flex-1 min-w-0">
+          <Search className="absolute left-2.5 sm:left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 sm:h-4 sm:w-4 text-muted-foreground" />
           <Input
             placeholder="Search products..."
             value={query}
             onChange={(e) => { setQuery(e.target.value); setOpen(true); }}
             onFocus={() => query && setOpen(true)}
-            className="pl-10 border-0 bg-transparent rounded-none h-10 focus-visible:ring-0"
+            className="pl-8 sm:pl-10 border-0 bg-transparent rounded-none h-9 sm:h-10 text-sm focus-visible:ring-0"
           />
         </div>
 
