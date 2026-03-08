@@ -2,7 +2,8 @@ import { useStore } from "@/context/StoreContext";
 import ProductCard from "@/components/ProductCard";
 
 export default function BestSellers() {
-  const products = [...mockProducts].sort((a, b) => b.totalSold - a.totalSold);
+  const { products } = useStore();
+  const sorted = [...products].filter(p => p.status === "active").sort((a, b) => b.totalSold - a.totalSold);
   return (
     <div className="container mx-auto py-8">
       <h1 className="font-display text-3xl font-bold mb-8">Best Sellers</h1>
