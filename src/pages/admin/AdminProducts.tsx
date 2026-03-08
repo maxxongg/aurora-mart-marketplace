@@ -21,11 +21,11 @@ export default function AdminProducts() {
 
   const filtered = products.filter((p) => p.name.toLowerCase().includes(search.toLowerCase()));
 
-  const emptyForm = { name: "", description: "", categoryId: "", price: 0, originalPrice: 0, stock: 0, image: "", images: [] as string[], isFeatured: false, isFlashSale: false, status: "active" as Product["status"] };
+  const emptyForm = { name: "", description: "", categoryId: "", brand: "", productType: "", price: 0, originalPrice: 0, stock: 0, image: "", images: [] as string[], isFeatured: false, isFlashSale: false, status: "active" as Product["status"] };
   const [form, setForm] = useState(emptyForm);
 
   const openAdd = () => { setEditingProduct(null); setForm(emptyForm); setIsOpen(true); };
-  const openEdit = (p: Product) => { setEditingProduct(p); setForm({ name: p.name, description: p.description, categoryId: p.categoryId, price: p.price, originalPrice: p.originalPrice || 0, stock: p.stock, image: p.image, images: p.images || [], isFeatured: p.isFeatured, isFlashSale: p.isFlashSale, status: p.status }); setIsOpen(true); };
+  const openEdit = (p: Product) => { setEditingProduct(p); setForm({ name: p.name, description: p.description, categoryId: p.categoryId, brand: p.brand || "", productType: p.productType || "", price: p.price, originalPrice: p.originalPrice || 0, stock: p.stock, image: p.image, images: p.images || [], isFeatured: p.isFeatured, isFlashSale: p.isFlashSale, status: p.status }); setIsOpen(true); };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
