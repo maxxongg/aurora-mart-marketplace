@@ -313,6 +313,11 @@ export default function Products() {
               {brand} <X className="h-3 w-3" />
             </Badge>
           ))}
+          {selectedTypes.map(type => (
+            <Badge key={type} variant="secondary" className="gap-1 cursor-pointer" onClick={() => toggleType(type)}>
+              {type} <X className="h-3 w-3" />
+            </Badge>
+          ))}
           {(priceRange[0] > priceBounds.min || priceRange[1] < priceBounds.max) && (
             <Badge variant="secondary" className="gap-1 cursor-pointer" onClick={() => setPriceRange([priceBounds.min, priceBounds.max])}>
               {settings.currency}{priceRange[0]} - {settings.currency}{priceRange[1]} <X className="h-3 w-3" />
