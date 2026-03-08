@@ -38,8 +38,32 @@ export default function AdminSettings() {
   const { settings, updateSettings } = useStore();
   const [form, setForm] = useState({ ...settings });
 
+  const logoInputRef = useRef<HTMLInputElement>(null);
+
   const handleSave = () => { updateSettings(form); toast.success("Settings saved successfully!"); };
   const set = (key: string, value: any) => setForm((prev) => ({ ...prev, [key]: value }));
+
+  const handleLogoUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const validation = await validateImageFile(file);
+    if (!validation.valid) {
+      toast.error(validation.errors.join(", "));
+      return;
+    }
+    const logoPreset = IMAGE_PRESETS.find(p => p.id === "logo")!;
+    if (validation.width! < logoPreset.width || validation.height! < logoPreset.height) {
+      toast.warning(`Recommended size: ${logoPreset.width}×${logoPreset.height}px. Your image: ${validation.width}×${validation.height}px`);
+    }
+    try {
+      const data = await fileToBase64(file);
+      set("storeLogo", data);
+      toast.success(`Logo uploaded (${formatFileSize(file.size)})`);
+    } catch {
+      toast.error("Failed to process image");
+    }
+    if (logoInputRef.current) logoInputRef.current.value = "";
+  };
 
   // Trust badges helpers
   const updateBadge = (i: number, field: keyof TrustBadge, val: string) => {
