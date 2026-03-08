@@ -1,4 +1,4 @@
-import { mockOrders } from "@/data/mock";
+import { useStore } from "@/context/StoreContext";
 import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";

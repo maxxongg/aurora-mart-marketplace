@@ -1,4 +1,4 @@
-import { mockProducts } from "@/data/mock";
+import { useStore } from "@/context/StoreContext";
 import ProductCard from "@/components/ProductCard";
 
 export default function NewArrivals() {

@@ -1,4 +1,4 @@
-import { mockOrders, mockProducts } from "@/data/mock";
+import { useStore } from "@/context/StoreContext";
 import { Badge } from "@/components/ui/badge";
 import { Package } from "lucide-react";
 

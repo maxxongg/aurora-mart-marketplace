@@ -1,4 +1,4 @@
-import { mockUsers } from "@/data/mock";
+import { defaultUsers } from "@/data/defaults";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 

@@ -1,5 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { mockProducts, mockOrders, mockUsers } from "@/data/mock";
+import { useStore } from "@/context/StoreContext";
 import { DollarSign, Package, ShoppingBag, Users } from "lucide-react";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
 import { Badge } from "@/components/ui/badge";
