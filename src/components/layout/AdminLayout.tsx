@@ -1,6 +1,6 @@
 import { Link, useLocation } from "react-router-dom";
 import AnimatedOutlet from "@/components/AnimatedOutlet";
-import { LayoutDashboard, Package, FolderTree, Image, ShoppingBag, Users, Settings, LogOut, ChevronLeft } from "lucide-react";
+import { LayoutDashboard, Package, FolderTree, Image, ShoppingBag, Users, Settings, LogOut, ChevronLeft, Ticket, Megaphone } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/context/AuthContext";
 import { Button } from "@/components/ui/button";
@@ -12,6 +12,8 @@ const links = [
   { to: "/admin/banners", icon: Image, label: "Banners" },
   { to: "/admin/orders", icon: ShoppingBag, label: "Orders" },
   { to: "/admin/customers", icon: Users, label: "Customers" },
+  { to: "/admin/coupons", icon: Ticket, label: "Coupons" },
+  { to: "/admin/offers", icon: Megaphone, label: "Offers" },
   { to: "/admin/settings", icon: Settings, label: "Settings" },
 ];
 

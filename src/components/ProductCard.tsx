@@ -4,6 +4,7 @@ import { Product } from "@/types";
 import { Button } from "@/components/ui/button";
 import { useCart } from "@/context/CartContext";
 import { useWishlist } from "@/context/WishlistContext";
+import { useStore } from "@/context/StoreContext";
 import { Badge } from "@/components/ui/badge";
 import { motion } from "framer-motion";
 
@@ -14,7 +15,9 @@ interface ProductCardProps {
 export default function ProductCard({ product }: ProductCardProps) {
   const { addItem } = useCart();
   const { toggleItem, isInWishlist } = useWishlist();
+  const { settings } = useStore();
   const discount = product.originalPrice ? Math.round((1 - product.price / product.originalPrice) * 100) : 0;
+  const c = settings.currency;
 
   return (
     <motion.div
@@ -49,9 +52,9 @@ export default function ProductCard({ product }: ProductCardProps) {
         </div>
         <div className="flex items-center justify-between mt-1.5 sm:mt-2">
           <div className="min-w-0">
-            <span className="font-display font-bold text-sm sm:text-lg">${product.price.toFixed(2)}</span>
+            <span className="font-display font-bold text-sm sm:text-lg">{c}{product.price.toFixed(2)}</span>
             {product.originalPrice && (
-              <span className="text-[10px] sm:text-xs text-muted-foreground line-through ml-1 sm:ml-1.5">${product.originalPrice.toFixed(2)}</span>
+              <span className="text-[10px] sm:text-xs text-muted-foreground line-through ml-1 sm:ml-1.5">{c}{product.originalPrice.toFixed(2)}</span>
             )}
           </div>
           <Button size="icon" className="h-7 w-7 sm:h-8 sm:w-8 gradient-primary border-0 text-primary-foreground shrink-0" onClick={() => addItem(product)}>

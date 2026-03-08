@@ -6,17 +6,51 @@ import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Separator } from "@/components/ui/separator";
 import { useCart } from "@/context/CartContext";
+import { useStore } from "@/context/StoreContext";
+import { useAuth } from "@/context/AuthContext";
 import { toast } from "sonner";
-import { CreditCard, Banknote, Smartphone } from "lucide-react";
+import { CreditCard, Banknote, Smartphone, Tag } from "lucide-react";
 
 export default function Checkout() {
   const { items, total, clearCart } = useCart();
+  const { settings, applyCoupon, addOrder } = useStore();
+  const { user } = useAuth();
   const navigate = useNavigate();
   const [payment, setPayment] = useState("cod");
-  const shipping = total >= 50 ? 0 : 5.99;
+  const [couponCode, setCouponCode] = useState("");
+  const [discount, setDiscount] = useState(0);
+  const [couponMsg, setCouponMsg] = useState("");
+
+  const shipping = total >= settings.freeShippingThreshold ? 0 : settings.shippingCost;
+  const grandTotal = Math.max(0, total - discount + shipping);
+
+  const handleApplyCoupon = () => {
+    const result = applyCoupon(couponCode, total);
+    setDiscount(result.valid ? result.discount : 0);
+    setCouponMsg(result.message);
+    if (result.valid) toast.success(result.message);
+    else toast.error(result.message);
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    const formData = new FormData(e.target as HTMLFormElement);
+    const order = {
+      id: `ORD-${Date.now().toString(36).toUpperCase()}`,
+      userId: user?.id || "guest",
+      items: items.map((item, i) => ({ id: String(i + 1), productId: item.product.id, quantity: item.quantity, price: item.product.price })),
+      total: grandTotal,
+      status: "pending" as const,
+      shippingName: formData.get("name") as string,
+      shippingPhone: formData.get("phone") as string,
+      shippingAddress: formData.get("address") as string,
+      shippingCity: formData.get("city") as string,
+      shippingZip: formData.get("zip") as string,
+      paymentMethod: payment as any,
+      paymentStatus: payment === "cod" ? "unpaid" as const : "paid" as const,
+      createdAt: new Date().toISOString(),
+    };
+    addOrder(order);
     toast.success("Order placed successfully!");
     clearCart();
     navigate("/orders");
@@ -33,13 +67,13 @@ export default function Checkout() {
             <h2 className="font-display font-bold mb-4">Shipping Information</h2>
             <div className="grid gap-3 sm:gap-4">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
-                <div><Label htmlFor="name">Full Name</Label><Input id="name" required placeholder="John Doe" /></div>
-                <div><Label htmlFor="phone">Phone</Label><Input id="phone" required placeholder="+880 1234567890" /></div>
+                <div><Label htmlFor="name">Full Name</Label><Input id="name" name="name" required placeholder="John Doe" /></div>
+                <div><Label htmlFor="phone">Phone</Label><Input id="phone" name="phone" required placeholder="+880 1234567890" /></div>
               </div>
-              <div><Label htmlFor="address">Address</Label><Input id="address" required placeholder="123 Main St" /></div>
+              <div><Label htmlFor="address">Address</Label><Input id="address" name="address" required placeholder="123 Main St" /></div>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
-                <div><Label htmlFor="city">City</Label><Input id="city" required placeholder="Dhaka" /></div>
-                <div><Label htmlFor="zip">ZIP Code</Label><Input id="zip" required placeholder="1205" /></div>
+                <div><Label htmlFor="city">City</Label><Input id="city" name="city" required placeholder="Dhaka" /></div>
+                <div><Label htmlFor="zip">ZIP Code</Label><Input id="zip" name="zip" required placeholder="1205" /></div>
               </div>
             </div>
           </div>
@@ -69,20 +103,29 @@ export default function Checkout() {
                   <img src={item.product.image} alt="" className="h-11 w-11 sm:h-12 sm:w-12 rounded object-cover shrink-0" />
                   <div className="flex-1 min-w-0">
                     <p className="line-clamp-1 text-xs sm:text-sm">{item.product.name}</p>
-                    <p className="text-muted-foreground text-xs">{item.quantity} × ${item.product.price.toFixed(2)}</p>
+                    <p className="text-muted-foreground text-xs">{item.quantity} × {settings.currency}{item.product.price.toFixed(2)}</p>
                   </div>
-                  <span className="font-medium text-xs sm:text-sm shrink-0">${(item.product.price * item.quantity).toFixed(2)}</span>
+                  <span className="font-medium text-xs sm:text-sm shrink-0">{settings.currency}{(item.product.price * item.quantity).toFixed(2)}</span>
                 </div>
               ))}
             </div>
             <Separator className="my-4" />
+            <div className="flex gap-2 mb-4">
+              <div className="relative flex-1">
+                <Tag className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-muted-foreground" />
+                <Input placeholder="Coupon code" value={couponCode} onChange={(e) => setCouponCode(e.target.value)} className="pl-9 h-9 text-sm" />
+              </div>
+              <Button type="button" variant="outline" size="sm" onClick={handleApplyCoupon} className="h-9">Apply</Button>
+            </div>
+            {couponMsg && <p className={`text-xs mb-3 ${discount > 0 ? "text-success" : "text-destructive"}`}>{couponMsg}</p>}
             <div className="space-y-2 text-sm">
-              <div className="flex justify-between"><span className="text-muted-foreground">Subtotal</span><span>${total.toFixed(2)}</span></div>
-              <div className="flex justify-between"><span className="text-muted-foreground">Shipping</span><span>{shipping === 0 ? "Free" : `$${shipping.toFixed(2)}`}</span></div>
+              <div className="flex justify-between"><span className="text-muted-foreground">Subtotal</span><span>{settings.currency}{total.toFixed(2)}</span></div>
+              {discount > 0 && <div className="flex justify-between text-success"><span>Discount</span><span>-{settings.currency}{discount.toFixed(2)}</span></div>}
+              <div className="flex justify-between"><span className="text-muted-foreground">Shipping</span><span>{shipping === 0 ? "Free" : `${settings.currency}${shipping.toFixed(2)}`}</span></div>
             </div>
             <Separator className="my-4" />
             <div className="flex justify-between font-display font-bold text-lg mb-6">
-              <span>Total</span><span>${(total + shipping).toFixed(2)}</span>
+              <span>Total</span><span>{settings.currency}{grandTotal.toFixed(2)}</span>
             </div>
             <Button type="submit" className="w-full gradient-primary border-0 text-primary-foreground">Place Order</Button>
           </div>

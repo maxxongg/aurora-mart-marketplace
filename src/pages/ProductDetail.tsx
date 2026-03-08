@@ -10,7 +10,7 @@ import ProductCard from "@/components/ProductCard";
 
 export default function ProductDetail() {
   const { id } = useParams();
-  const { products, categories } = useStore();
+  const { products, categories, settings } = useStore();
   const product = products.find((p) => p.id === id);
   const { addItem } = useCart();
   const { toggleItem, isInWishlist } = useWishlist();
@@ -23,6 +23,7 @@ export default function ProductDetail() {
   const discount = product.originalPrice ? Math.round((1 - product.price / product.originalPrice) * 100) : 0;
   const images = product.images?.length ? product.images : [product.image];
   const related = products.filter((p) => p.categoryId === product.categoryId && p.id !== product.id && p.status === "active").slice(0, 4);
+  const c = settings.currency;
 
   return (
     <div className="container mx-auto py-4 sm:py-8">
@@ -36,14 +37,18 @@ export default function ProductDetail() {
           <div className="flex items-center gap-2 mb-2">{category && <Badge variant="secondary">{category.name}</Badge>}{product.isFlashSale && <Badge className="bg-destructive border-0 text-destructive-foreground">Flash Sale</Badge>}</div>
           <h1 className="font-display text-xl sm:text-2xl md:text-3xl font-bold mb-2 sm:mb-3">{product.name}</h1>
           <div className="flex items-center gap-2 mb-3 sm:mb-4"><div className="flex">{Array.from({ length: 5 }).map((_, i) => <Star key={i} className={`h-4 w-4 ${i < Math.round(product.rating) ? "fill-warning text-warning" : "text-muted"}`} />)}</div><span className="text-sm text-muted-foreground">{product.rating} ({product.reviewCount} reviews)</span></div>
-          <div className="flex items-baseline gap-2 sm:gap-3 mb-4 sm:mb-6"><span className="font-display text-2xl sm:text-3xl font-bold">${product.price.toFixed(2)}</span>{product.originalPrice && <span className="text-base sm:text-lg text-muted-foreground line-through">${product.originalPrice.toFixed(2)}</span>}{discount > 0 && <Badge className="gradient-primary border-0 text-primary-foreground">{discount}% OFF</Badge>}</div>
+          <div className="flex items-baseline gap-2 sm:gap-3 mb-4 sm:mb-6"><span className="font-display text-2xl sm:text-3xl font-bold">{c}{product.price.toFixed(2)}</span>{product.originalPrice && <span className="text-base sm:text-lg text-muted-foreground line-through">{c}{product.originalPrice.toFixed(2)}</span>}{discount > 0 && <Badge className="gradient-primary border-0 text-primary-foreground">{discount}% OFF</Badge>}</div>
           <p className="text-muted-foreground text-sm sm:text-base mb-4 sm:mb-6 leading-relaxed">{product.description}</p>
           <div className="flex items-center gap-3 mb-4 sm:mb-6">
             <div className="flex items-center border rounded-lg"><Button variant="ghost" size="icon" className="h-9 w-9" onClick={() => setQty(Math.max(1, qty - 1))}><Minus className="h-4 w-4" /></Button><span className="w-10 sm:w-12 text-center font-medium">{qty}</span><Button variant="ghost" size="icon" className="h-9 w-9" onClick={() => setQty(qty + 1)}><Plus className="h-4 w-4" /></Button></div>
             <span className="text-sm text-muted-foreground">{product.stock > 0 ? `${product.stock} in stock` : "Out of stock"}</span>
           </div>
           <div className="flex gap-3 mb-6 sm:mb-8"><Button className="flex-1 gradient-primary border-0 text-primary-foreground" onClick={() => addItem(product, qty)} disabled={product.stock === 0}><ShoppingCart className="h-4 w-4 mr-2" /> Add to Cart</Button><Button variant="outline" size="icon" onClick={() => toggleItem(product)}><Heart className={`h-4 w-4 ${isInWishlist(product.id) ? "fill-destructive text-destructive" : ""}`} /></Button></div>
-          <div className="space-y-2.5 sm:space-y-3 text-sm"><div className="flex items-center gap-3"><Truck className="h-4 w-4 text-primary shrink-0" /> Free shipping on orders over $50</div><div className="flex items-center gap-3"><Shield className="h-4 w-4 text-primary shrink-0" /> Secure checkout</div><div className="flex items-center gap-3"><RefreshCw className="h-4 w-4 text-primary shrink-0" /> 30-day return policy</div></div>
+          <div className="space-y-2.5 sm:space-y-3 text-sm">
+            <div className="flex items-center gap-3"><Truck className="h-4 w-4 text-primary shrink-0" /> Free shipping on orders over {c}{settings.freeShippingThreshold}</div>
+            <div className="flex items-center gap-3"><Shield className="h-4 w-4 text-primary shrink-0" /> Secure checkout</div>
+            <div className="flex items-center gap-3"><RefreshCw className="h-4 w-4 text-primary shrink-0" /> 30-day return policy</div>
+          </div>
         </div>
       </div>
       {related.length > 0 && (<section className="mt-12 sm:mt-16"><h2 className="font-display text-xl sm:text-2xl font-bold mb-4 sm:mb-6">Related Products</h2><div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">{related.map((p) => <ProductCard key={p.id} product={p} />)}</div></section>)}
