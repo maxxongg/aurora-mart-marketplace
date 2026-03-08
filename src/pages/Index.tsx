@@ -68,19 +68,16 @@ function CountdownTimer() {
   );
 }
 
+const iconMap: Record<string, LucideIcon> = { Truck, Shield, RefreshCw, Headphones, Heart, Star, Clock, Award, Zap };
+
 export default function Index() {
-  const { products, categories, offerBanners } = useStore();
+  const { products, categories, offerBanners, settings } = useStore();
   const flashSaleProducts = products.filter((p) => p.isFlashSale && p.status === "active");
   const newArrivals = [...products].filter((p) => p.status === "active").sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()).slice(0, 8);
   const bestSellers = [...products].filter((p) => p.status === "active").sort((a, b) => b.totalSold - a.totalSold).slice(0, 8);
   const activeOffer = offerBanners.find((o) => o.isActive);
 
-  const trustBadges = [
-    { icon: Truck, title: "Free Shipping", desc: "On orders $50+" },
-    { icon: Shield, title: "Secure Payment", desc: "100% protected" },
-    { icon: RefreshCw, title: "Easy Returns", desc: "30-day policy" },
-    { icon: Headphones, title: "24/7 Support", desc: "We're here to help" },
-  ];
+  const trustBadges = settings.trustBadges.map((b) => ({ ...b, Icon: iconMap[b.icon] || Shield }));
 
   return (
     <div className="space-y-8 sm:space-y-12 pb-8">
