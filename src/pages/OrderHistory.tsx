@@ -3,11 +3,12 @@ import { Badge } from "@/components/ui/badge";
 import { Package } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import { TrackOrderButton } from "@/components/OrderTracking";
 
 const statusColors: Record<string, string> = {
   pending: "bg-warning/10 text-warning border-warning/20",
   processing: "bg-primary/10 text-primary border-primary/20",
-  shipped: "bg-blue-100 text-blue-700 border-blue-200",
+  shipped: "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400 border-blue-200 dark:border-blue-800",
   delivered: "bg-success/10 text-success border-success/20",
   cancelled: "bg-destructive/10 text-destructive border-destructive/20",
 };
@@ -38,9 +39,10 @@ export default function OrderHistory() {
                 <span className="font-display font-bold text-base sm:text-lg">{order.id}</span>
                 <span className="text-xs sm:text-sm text-muted-foreground ml-2 sm:ml-3">{new Date(order.createdAt).toLocaleDateString()}</span>
               </div>
-              <div className="flex gap-2">
+              <div className="flex items-center gap-2">
                 <Badge className={statusColors[order.status]}>{order.status}</Badge>
                 <Badge variant="outline" className="text-xs">{order.paymentMethod.toUpperCase()}</Badge>
+                <TrackOrderButton order={order} products={products} currency={c} />
               </div>
             </div>
             <div className="space-y-2">
