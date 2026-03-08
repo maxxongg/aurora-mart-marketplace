@@ -75,6 +75,8 @@ const App = () => (
                     <Route path="/shipping" element={<Shipping />} />
                     <Route path="/returns" element={<Returns />} />
                     <Route path="/contact" element={<Contact />} />
+                    <Route path="/terms" element={<TermsOfService />} />
+                    <Route path="/privacy" element={<PrivacyPolicy />} />
                   </Route>
 
                   <Route path="/auth" element={<Auth />} />
