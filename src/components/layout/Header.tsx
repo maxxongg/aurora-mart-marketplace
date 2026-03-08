@@ -1,11 +1,11 @@
 import { Link } from "react-router-dom";
-import { ShoppingCart, Heart, User, Search, Menu, X, ChevronDown } from "lucide-react";
+import { ShoppingCart, Heart, User, Search, Menu, X, ChevronDown, Moon, Sun } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useAuth } from "@/context/AuthContext";
 import { useCart } from "@/context/CartContext";
 import { useWishlist } from "@/context/WishlistContext";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { mockSettings, mockCategories } from "@/data/mock";
 import { Badge } from "@/components/ui/badge";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
