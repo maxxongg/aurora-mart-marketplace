@@ -1,21 +1,101 @@
-import { Link } from "react-router-dom";
-import { ShoppingCart, Heart, User, Search, Menu, X, ChevronDown, Moon, Sun } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
+import { ShoppingCart, Heart, User, Search, Menu, ChevronDown, Moon, Sun } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useAuth } from "@/context/AuthContext";
 import { useCart } from "@/context/CartContext";
 import { useWishlist } from "@/context/WishlistContext";
-import { useState, useEffect } from "react";
-import { mockSettings, mockCategories } from "@/data/mock";
+import { useState, useEffect, useMemo, useRef } from "react";
+import { mockSettings, mockCategories, mockProducts } from "@/data/mock";
 import { Badge } from "@/components/ui/badge";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+
+function SearchBox({ className }: { className?: string }) {
+  const [query, setQuery] = useState("");
+  const [open, setOpen] = useState(false);
+  const navigate = useNavigate();
+  const ref = useRef<HTMLDivElement>(null);
+
+  const results = useMemo(() => {
+    if (!query.trim()) return [];
+    const q = query.toLowerCase();
+    return mockProducts
+      .filter((p) => p.name.toLowerCase().includes(q) || p.description.toLowerCase().includes(q))
+      .slice(0, 6);
+  }, [query]);
+
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
+    };
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, []);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (query.trim()) {
+      navigate(`/products?search=${encodeURIComponent(query.trim())}`);
+      setOpen(false);
+      setQuery("");
+    }
+  };
+
+  const handleSelect = (productId: string) => {
+    setOpen(false);
+    setQuery("");
+    navigate(`/product/${productId}`);
+  };
+
+  return (
+    <div ref={ref} className={`relative ${className || ""}`}>
+      <form onSubmit={handleSubmit}>
+        <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground z-10" />
+        <Input
+          placeholder="Search products..."
+          value={query}
+          onChange={(e) => { setQuery(e.target.value); setOpen(true); }}
+          onFocus={() => query && setOpen(true)}
+          className="pl-10 bg-secondary border-0"
+        />
+      </form>
+      {open && results.length > 0 && (
+        <div className="absolute top-full left-0 right-0 mt-1 bg-popover border rounded-lg shadow-elevated z-50 overflow-hidden">
+          {results.map((p) => (
+            <button
+              key={p.id}
+              onClick={() => handleSelect(p.id)}
+              className="flex items-center gap-3 w-full px-3 py-2.5 hover:bg-accent transition-colors text-left"
+            >
+              <img src={p.image} alt={p.name} className="w-10 h-10 rounded-md object-cover shrink-0" />
+              <div className="min-w-0 flex-1">
+                <p className="text-sm font-medium truncate text-popover-foreground">{p.name}</p>
+                <p className="text-xs text-muted-foreground">${p.price.toFixed(2)}</p>
+              </div>
+            </button>
+          ))}
+          <button
+            onClick={handleSubmit as any}
+            className="w-full px-3 py-2 text-sm text-primary font-medium hover:bg-accent transition-colors border-t"
+          >
+            View all results for "{query}"
+          </button>
+        </div>
+      )}
+      {open && query.trim() && results.length === 0 && (
+        <div className="absolute top-full left-0 right-0 mt-1 bg-popover border rounded-lg shadow-elevated z-50 p-4 text-center text-sm text-muted-foreground">
+          No products found for "{query}"
+        </div>
+      )}
+    </div>
+  );
+}
 
 export default function Header() {
   const { user, isAuthenticated, logout } = useAuth();
   const { itemCount } = useCart();
   const { items: wishlistItems } = useWishlist();
-  const [search, setSearch] = useState("");
   const [isDark, setIsDark] = useState(() => document.documentElement.classList.contains("dark"));
 
   useEffect(() => {
@@ -32,14 +112,12 @@ export default function Header() {
 
   return (
     <header className="sticky top-0 z-50 bg-card/80 backdrop-blur-lg border-b">
-      {/* Announcement Bar */}
       <div className="gradient-primary text-primary-foreground text-center py-1.5 text-sm font-medium">
         {mockSettings.announcementText}
       </div>
 
       <div className="container mx-auto">
         <div className="flex items-center justify-between h-16 gap-4">
-          {/* Mobile Menu */}
           <Sheet>
             <SheetTrigger asChild>
               <Button variant="ghost" size="icon" className="lg:hidden">
@@ -63,18 +141,12 @@ export default function Header() {
             </SheetContent>
           </Sheet>
 
-          {/* Logo */}
           <Link to="/" className="font-display font-bold text-xl md:text-2xl shrink-0">
             <span className="text-gradient">Aurora</span> Mart
           </Link>
 
-          {/* Search */}
-          <div className="hidden md:flex flex-1 max-w-xl relative">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-            <Input placeholder="Search products..." value={search} onChange={(e) => setSearch(e.target.value)} className="pl-10 bg-secondary border-0" />
-          </div>
+          <SearchBox className="hidden md:block flex-1 max-w-xl" />
 
-          {/* Nav */}
           <nav className="hidden lg:flex items-center gap-6 text-sm font-medium">
             <Link to="/products" className="hover:text-primary transition-colors">Shop</Link>
             <DropdownMenu>
@@ -93,7 +165,6 @@ export default function Header() {
             <Link to="/best-sellers" className="hover:text-primary transition-colors">Best Sellers</Link>
           </nav>
 
-          {/* Actions */}
           <div className="flex items-center gap-1">
             <Button variant="ghost" size="icon" onClick={() => setIsDark(!isDark)}>
               {isDark ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
@@ -139,12 +210,8 @@ export default function Header() {
           </div>
         </div>
 
-        {/* Mobile Search */}
         <div className="md:hidden pb-3">
-          <div className="relative">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-            <Input placeholder="Search products..." value={search} onChange={(e) => setSearch(e.target.value)} className="pl-10 bg-secondary border-0" />
-          </div>
+          <SearchBox />
         </div>
       </div>
     </header>
