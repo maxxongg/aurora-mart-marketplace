@@ -33,7 +33,7 @@ export default function AdminProducts() {
       updateProduct(editingProduct.id, { ...form, originalPrice: form.originalPrice || undefined, brand: form.brand || undefined, productType: form.productType || undefined });
       toast.success("Product updated!");
     } else {
-      addProduct({ ...form, originalPrice: form.originalPrice || undefined });
+      addProduct({ ...form, originalPrice: form.originalPrice || undefined, brand: form.brand || undefined, productType: form.productType || undefined });
       toast.success("Product added!");
     }
     setIsOpen(false);

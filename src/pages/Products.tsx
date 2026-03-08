@@ -179,6 +179,22 @@ export default function Products() {
 
       <Collapsible defaultOpen>
         <CollapsibleTrigger className="flex items-center justify-between w-full text-sm font-semibold py-1">
+          Product Type <ChevronDown className="h-4 w-4" />
+        </CollapsibleTrigger>
+        <CollapsibleContent className="pt-2 space-y-2 max-h-40 overflow-y-auto">
+          {productTypes.map(type => (
+            <label key={type} className="flex items-center gap-2 cursor-pointer text-sm">
+              <Checkbox checked={selectedTypes.includes(type)} onCheckedChange={() => toggleType(type)} />
+              <span>{type}</span>
+            </label>
+          ))}
+        </CollapsibleContent>
+      </Collapsible>
+
+      <Separator />
+
+      <Collapsible defaultOpen>
+        <CollapsibleTrigger className="flex items-center justify-between w-full text-sm font-semibold py-1">
           Rating <ChevronDown className="h-4 w-4" />
         </CollapsibleTrigger>
         <CollapsibleContent className="pt-2 space-y-2">
