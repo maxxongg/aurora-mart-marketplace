@@ -132,7 +132,7 @@ export default function Index() {
 
       <section className="container mx-auto">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
-          {trustBadges.map(({ icon: Icon, title, desc }) => (
+          {trustBadges.map(({ Icon, title, desc }) => (
             <motion.div key={title} whileHover={{ y: -2 }} className="flex flex-col sm:flex-row items-center sm:items-center gap-2 sm:gap-3 p-3 sm:p-4 rounded-lg border bg-card text-center sm:text-left">
               <div className="h-9 w-9 sm:h-10 sm:w-10 rounded-full gradient-primary flex items-center justify-center shrink-0"><Icon className="h-4 w-4 sm:h-5 sm:w-5 text-primary-foreground" /></div>
               <div><p className="font-medium text-xs sm:text-sm">{title}</p><p className="text-[10px] sm:text-xs text-muted-foreground">{desc}</p></div>

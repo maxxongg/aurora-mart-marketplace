@@ -123,6 +123,33 @@ export const defaultSettings: Settings = {
   currency: "$",
   freeShippingThreshold: 50,
   shippingCost: 5.99,
+  footerDescription: "Your one-stop marketplace for quality products from trusted sellers worldwide.",
+  trustBadges: [
+    { icon: "Truck", title: "Free Shipping", desc: "On orders $50+" },
+    { icon: "Shield", title: "Secure Payment", desc: "100% protected" },
+    { icon: "RefreshCw", title: "Easy Returns", desc: "30-day policy" },
+    { icon: "Headphones", title: "24/7 Support", desc: "We're here to help" },
+  ],
+  faqItems: [
+    { q: "How do I place an order?", a: "Browse products, add items to your cart, proceed to checkout, fill in your shipping details and select a payment method." },
+    { q: "What payment methods do you accept?", a: "We accept Cash on Delivery (COD), bKash, and credit/debit cards via Stripe." },
+    { q: "How long does shipping take?", a: "Standard shipping takes 3-5 business days within Bangladesh. Express shipping is available for 1-2 day delivery." },
+    { q: "Can I return or exchange an item?", a: "Yes, we offer a 30-day return policy. Items must be in original condition with tags attached." },
+    { q: "How do I become a seller?", a: "Contact our support team to apply for a seller account. We'll review your application within 48 hours." },
+    { q: "Is my payment information secure?", a: "Absolutely. All payments are processed through encrypted, PCI-compliant payment gateways." },
+  ],
+  shippingSections: [
+    { title: "Delivery Times", body: "Standard: 3-5 business days. Express: 1-2 business days (additional charges apply)." },
+    { title: "Free Shipping", body: "All orders over $50 qualify for free standard shipping within Bangladesh." },
+    { title: "Tracking", body: "A tracking number will be sent to your email once your order has been shipped." },
+    { title: "International", body: "International shipping is available to select countries. Delivery typically takes 7-14 business days." },
+  ],
+  returnsSections: [
+    { title: "30-Day Returns", body: "You may return most items within 30 days of delivery for a full refund. Items must be unused and in original packaging." },
+    { title: "How to Return", body: "Contact our support team with your order number. We'll provide a prepaid return label." },
+    { title: "Refund Processing", body: "Refunds are processed within 5-7 business days after we receive the returned item. Original payment method will be credited." },
+    { title: "Exceptions", body: "Perishable goods, custom items, and gift cards are non-returnable." },
+  ],
 };
 
 export const defaultCoupons: Coupon[] = [

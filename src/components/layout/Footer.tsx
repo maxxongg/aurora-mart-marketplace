@@ -10,7 +10,7 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           <div>
             <h3 className="font-display font-bold text-xl text-background mb-4">{settings.storeName}</h3>
-            <p className="text-sm leading-relaxed mb-4">Your one-stop marketplace for quality products from trusted sellers worldwide.</p>
+            <p className="text-sm leading-relaxed mb-4">{settings.footerDescription}</p>
             <div className="flex gap-3">
               {settings.socialFacebook && <a href={settings.socialFacebook} target="_blank" rel="noopener noreferrer" className="h-9 w-9 rounded-full bg-background/10 flex items-center justify-center hover:bg-primary transition-colors"><Facebook className="h-4 w-4" /></a>}
               {settings.socialInstagram && <a href={settings.socialInstagram} target="_blank" rel="noopener noreferrer" className="h-9 w-9 rounded-full bg-background/10 flex items-center justify-center hover:bg-primary transition-colors"><Instagram className="h-4 w-4" /></a>}

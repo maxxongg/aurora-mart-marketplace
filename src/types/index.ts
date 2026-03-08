@@ -104,6 +104,22 @@ export interface OfferBanner {
   isActive: boolean;
 }
 
+export interface TrustBadge {
+  icon: string;
+  title: string;
+  desc: string;
+}
+
+export interface FAQItem {
+  q: string;
+  a: string;
+}
+
+export interface ContentSection {
+  title: string;
+  body: string;
+}
+
 export interface Settings {
   storeName: string;
   storeLogo: string;
@@ -119,4 +135,9 @@ export interface Settings {
   currency: string;
   freeShippingThreshold: number;
   shippingCost: number;
+  footerDescription: string;
+  trustBadges: TrustBadge[];
+  faqItems: FAQItem[];
+  shippingSections: ContentSection[];
+  returnsSections: ContentSection[];
 }
