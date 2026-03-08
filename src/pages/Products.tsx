@@ -17,20 +17,26 @@ export default function Products() {
   const [searchParams] = useSearchParams();
   const categoryFilter = searchParams.get("category");
   const searchQuery = searchParams.get("search") || "";
+  const minPriceParam = searchParams.get("minPrice");
+  const maxPriceParam = searchParams.get("maxPrice");
+  const minRatingParam = searchParams.get("minRating");
+  const saleParam = searchParams.get("sale");
   const [search, setSearch] = useState(searchQuery);
   const [sort, setSort] = useState("newest");
   const [selectedCategories, setSelectedCategories] = useState<string[]>(categoryFilter ? [categoryFilter] : []);
   const [priceRange, setPriceRange] = useState<[number, number]>([0, 500]);
   const [selectedBrands, setSelectedBrands] = useState<string[]>([]);
   const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
-  const [selectedRatings, setSelectedRatings] = useState<number[]>([]);
-  const [onlyOnSale, setOnlyOnSale] = useState(false);
+  const [selectedRatings, setSelectedRatings] = useState<number[]>(minRatingParam ? [Number(minRatingParam)] : []);
+  const [onlyOnSale, setOnlyOnSale] = useState(saleParam === "true");
   const [onlyInStock, setOnlyInStock] = useState(false);
   const { products, categories, settings } = useStore();
   const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => { setSearch(searchQuery); }, [searchQuery]);
-  useEffect(() => { if (categoryFilter) setSelectedCategories([categoryFilter]); }, [categoryFilter]);
+  useEffect(() => { if (categoryFilter) setSelectedCategories([categoryFilter]); else setSelectedCategories([]); }, [categoryFilter]);
+  useEffect(() => { if (minRatingParam) setSelectedRatings([Number(minRatingParam)]); }, [minRatingParam]);
+  useEffect(() => { setOnlyOnSale(saleParam === "true"); }, [saleParam]);
 
   // Extract unique brands and product types from real metadata
   const brands = useMemo(() => {
