@@ -1,6 +1,6 @@
 import { createContext, useContext, useState, ReactNode } from "react";
 import { User, UserRole } from "@/types";
-import { mockUsers } from "@/data/mock";
+import { defaultUsers } from "@/data/defaults";
 
 interface AuthContextType {
   user: User | null;
