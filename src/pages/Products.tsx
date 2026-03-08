@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import { mockProducts, mockCategories } from "@/data/mock";
 import ProductCard from "@/components/ProductCard";
@@ -9,14 +9,25 @@ import { Search } from "lucide-react";
 export default function Products() {
   const [searchParams] = useSearchParams();
   const categoryFilter = searchParams.get("category");
-  const [search, setSearch] = useState("");
+  const searchQuery = searchParams.get("search") || "";
+  const [search, setSearch] = useState(searchQuery);
   const [sort, setSort] = useState("newest");
   const [selectedCategory, setSelectedCategory] = useState(categoryFilter || "all");
+
+  // Sync URL search param to local state
+  useEffect(() => {
+    setSearch(searchQuery);
+  }, [searchQuery]);
 
   const filtered = useMemo(() => {
     let products = [...mockProducts];
     if (selectedCategory !== "all") products = products.filter((p) => p.categoryId === selectedCategory);
-    if (search) products = products.filter((p) => p.name.toLowerCase().includes(search.toLowerCase()));
+    if (search) {
+      const q = search.toLowerCase();
+      products = products.filter((p) =>
+        p.name.toLowerCase().includes(q) || p.description.toLowerCase().includes(q)
+      );
+    }
     switch (sort) {
       case "price-asc": products.sort((a, b) => a.price - b.price); break;
       case "price-desc": products.sort((a, b) => b.price - a.price); break;
@@ -28,7 +39,9 @@ export default function Products() {
 
   return (
     <div className="container mx-auto py-8">
-      <h1 className="font-display text-3xl font-bold mb-6">All Products</h1>
+      <h1 className="font-display text-3xl font-bold mb-6">
+        {search ? `Results for "${search}"` : "All Products"}
+      </h1>
       <div className="flex flex-col md:flex-row gap-4 mb-8">
         <div className="relative flex-1">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
