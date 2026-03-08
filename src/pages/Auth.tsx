@@ -7,7 +7,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useAuth } from "@/context/AuthContext";
 import { useStore } from "@/context/StoreContext";
 import { toast } from "sonner";
-import { User, ShieldCheck, Store } from "lucide-react";
+import { User, ShieldCheck, Store, Eye, EyeOff } from "lucide-react";
 
 type AuthPanel = "customer" | "seller";
 
@@ -16,6 +16,11 @@ export default function Auth() {
   const { login, register } = useAuth();
   const { settings } = useStore();
   const [panel, setPanel] = useState<AuthPanel>("customer");
+
+  // Password visibility
+  const [showCustPass, setShowCustPass] = useState(false);
+  const [showRegPass, setShowRegPass] = useState(false);
+  const [showSellerPass, setShowSellerPass] = useState(false);
 
   // Customer login
   const [custEmail, setCustEmail] = useState("");
@@ -100,7 +105,7 @@ export default function Auth() {
               <TabsContent value="login">
                 <form onSubmit={handleCustomerLogin} className="space-y-4">
                   <div><Label>Email</Label><Input type="email" value={custEmail} onChange={(e) => setCustEmail(e.target.value)} required placeholder="you@example.com" /></div>
-                  <div><Label>Password</Label><Input type="password" value={custPass} onChange={(e) => setCustPass(e.target.value)} required placeholder="••••••••" /></div>
+                  <div><Label>Password</Label><div className="relative"><Input type={showCustPass ? "text" : "password"} value={custPass} onChange={(e) => setCustPass(e.target.value)} required placeholder="••••••••" className="pr-10" /><button type="button" onClick={() => setShowCustPass(!showCustPass)} className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors">{showCustPass ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}</button></div></div>
                   <Button type="submit" className="w-full gradient-primary border-0 text-primary-foreground">
                     <User className="h-4 w-4 mr-2" /> Sign In as Customer
                   </Button>
@@ -112,7 +117,7 @@ export default function Auth() {
                   <div><Label>Full Name</Label><Input value={regName} onChange={(e) => setRegName(e.target.value)} required placeholder="John Doe" /></div>
                   <div><Label>Email</Label><Input type="email" value={regEmail} onChange={(e) => setRegEmail(e.target.value)} required placeholder="you@example.com" /></div>
                   <div><Label>Phone</Label><Input value={regPhone} onChange={(e) => setRegPhone(e.target.value)} required placeholder="+880 1234567890" /></div>
-                  <div><Label>Password</Label><Input type="password" value={regPass} onChange={(e) => setRegPass(e.target.value)} required placeholder="••••••••" /></div>
+                  <div><Label>Password</Label><div className="relative"><Input type={showRegPass ? "text" : "password"} value={regPass} onChange={(e) => setRegPass(e.target.value)} required placeholder="••••••••" className="pr-10" /><button type="button" onClick={() => setShowRegPass(!showRegPass)} className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors">{showRegPass ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}</button></div></div>
                   <Button type="submit" className="w-full gradient-primary border-0 text-primary-foreground">Create Account</Button>
                 </form>
               </TabsContent>
@@ -132,7 +137,7 @@ export default function Auth() {
             </div>
             <form onSubmit={handleSellerLogin} className="space-y-4">
               <div><Label>Email</Label><Input type="email" value={sellerEmail} onChange={(e) => setSellerEmail(e.target.value)} required placeholder="seller@example.com" /></div>
-              <div><Label>Password</Label><Input type="password" value={sellerPass} onChange={(e) => setSellerPass(e.target.value)} required placeholder="••••••••" /></div>
+              <div><Label>Password</Label><div className="relative"><Input type={showSellerPass ? "text" : "password"} value={sellerPass} onChange={(e) => setSellerPass(e.target.value)} required placeholder="••••••••" className="pr-10" /><button type="button" onClick={() => setShowSellerPass(!showSellerPass)} className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors">{showSellerPass ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}</button></div></div>
               <Button type="submit" className="w-full gradient-primary border-0 text-primary-foreground">
                 <Store className="h-4 w-4 mr-2" /> Sign In
               </Button>
