@@ -14,63 +14,63 @@ export const defaultCategories: Category[] = [
 export const defaultProducts: Product[] = [
   {
     id: "1", name: "Wireless Bluetooth Headphones", description: "Premium wireless headphones with active noise cancellation, 30-hour battery life, and ultra-comfortable over-ear design.",
-    categoryId: "1", price: 79.99, originalPrice: 129.99, stock: 45, image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400&h=400&fit=crop",
+    categoryId: "1", brand: "SoundMax", productType: "Headphones", price: 79.99, originalPrice: 129.99, stock: 45, image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400&h=400&fit=crop",
     images: ["https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800&h=800&fit=crop", "https://images.unsplash.com/photo-1484704849700-f032a568e944?w=800&h=800&fit=crop"],
     totalSold: 234, isFeatured: true, isFlashSale: true, status: "active", rating: 4.5, reviewCount: 128, createdAt: "2026-03-01T10:00:00Z",
   },
   {
     id: "2", name: "Smart Watch Pro X", description: "Advanced smartwatch with health monitoring, GPS tracking, and a stunning AMOLED display.",
-    categoryId: "1", price: 199.99, originalPrice: 299.99, stock: 22, image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400&h=400&fit=crop",
+    categoryId: "1", brand: "TechNova", productType: "Smartwatch", price: 199.99, originalPrice: 299.99, stock: 22, image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400&h=400&fit=crop",
     totalSold: 189, isFeatured: true, isFlashSale: true, status: "active", rating: 4.7, reviewCount: 95, createdAt: "2026-03-02T10:00:00Z",
   },
   {
     id: "3", name: "Minimalist Leather Backpack", description: "Handcrafted genuine leather backpack with laptop compartment.",
-    categoryId: "2", price: 89.99, originalPrice: 120.00, stock: 38, image: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=400&h=400&fit=crop",
+    categoryId: "2", brand: "UrbanCarry", productType: "Bags", price: 89.99, originalPrice: 120.00, stock: 38, image: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=400&h=400&fit=crop",
     totalSold: 156, isFeatured: true, isFlashSale: false, status: "active", rating: 4.3, reviewCount: 67, createdAt: "2026-03-03T10:00:00Z",
   },
   {
     id: "4", name: "Organic Cotton T-Shirt", description: "Sustainably sourced 100% organic cotton t-shirt.",
-    categoryId: "2", price: 29.99, originalPrice: 45.00, stock: 120, image: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400&h=400&fit=crop",
+    categoryId: "2", brand: "EcoWear", productType: "Clothing", price: 29.99, originalPrice: 45.00, stock: 120, image: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400&h=400&fit=crop",
     totalSold: 412, isFeatured: false, isFlashSale: true, status: "active", rating: 4.1, reviewCount: 203, createdAt: "2026-02-28T10:00:00Z",
   },
   {
     id: "5", name: "Ceramic Plant Pot Set", description: "Set of 3 modern ceramic plant pots with drainage holes.",
-    categoryId: "3", price: 34.99, originalPrice: 49.99, stock: 67, image: "https://images.unsplash.com/photo-1485955900006-10f4d324d411?w=400&h=400&fit=crop",
+    categoryId: "3", brand: "GreenHome", productType: "Decor", price: 34.99, originalPrice: 49.99, stock: 67, image: "https://images.unsplash.com/photo-1485955900006-10f4d324d411?w=400&h=400&fit=crop",
     totalSold: 98, isFeatured: false, isFlashSale: false, status: "active", rating: 4.6, reviewCount: 45, createdAt: "2026-03-04T10:00:00Z",
   },
   {
     id: "6", name: "Professional Yoga Mat", description: "Extra thick, non-slip yoga mat with alignment lines.",
-    categoryId: "4", price: 45.99, originalPrice: 65.00, stock: 54, image: "https://images.unsplash.com/photo-1601925260368-ae2f83cf8b7f?w=400&h=400&fit=crop",
+    categoryId: "4", brand: "FlexFit", productType: "Fitness Gear", price: 45.99, originalPrice: 65.00, stock: 54, image: "https://images.unsplash.com/photo-1601925260368-ae2f83cf8b7f?w=400&h=400&fit=crop",
     totalSold: 167, isFeatured: true, isFlashSale: false, status: "active", rating: 4.4, reviewCount: 89, createdAt: "2026-03-05T10:00:00Z",
   },
   {
     id: "7", name: "Luxury Skincare Set", description: "Complete skincare routine with cleanser, toner, serum, and moisturizer.",
-    categoryId: "5", price: 64.99, originalPrice: 95.00, stock: 33, image: "https://images.unsplash.com/photo-1556228578-0d85b1a4d571?w=400&h=400&fit=crop",
+    categoryId: "5", brand: "GlowLab", productType: "Skincare", price: 64.99, originalPrice: 95.00, stock: 33, image: "https://images.unsplash.com/photo-1556228578-0d85b1a4d571?w=400&h=400&fit=crop",
     totalSold: 278, isFeatured: true, isFlashSale: true, status: "active", rating: 4.8, reviewCount: 156, createdAt: "2026-03-06T10:00:00Z",
   },
   {
     id: "8", name: "Bestselling Novel Collection", description: "Curated collection of 5 award-winning novels.",
-    categoryId: "6", price: 42.99, originalPrice: 60.00, stock: 78, image: "https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=400&h=400&fit=crop",
+    categoryId: "6", brand: "PageTurner", productType: "Fiction", price: 42.99, originalPrice: 60.00, stock: 78, image: "https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=400&h=400&fit=crop",
     totalSold: 345, isFeatured: false, isFlashSale: false, status: "active", rating: 4.9, reviewCount: 234, createdAt: "2026-02-25T10:00:00Z",
   },
   {
     id: "9", name: "Portable Bluetooth Speaker", description: "Waterproof portable speaker with 360° sound, 20-hour battery.",
-    categoryId: "1", price: 49.99, originalPrice: 79.99, stock: 61, image: "https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?w=400&h=400&fit=crop",
+    categoryId: "1", brand: "SoundMax", productType: "Speakers", price: 49.99, originalPrice: 79.99, stock: 61, image: "https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?w=400&h=400&fit=crop",
     totalSold: 198, isFeatured: false, isFlashSale: true, status: "active", rating: 4.2, reviewCount: 112, createdAt: "2026-03-07T10:00:00Z",
   },
   {
     id: "10", name: "Running Shoes Elite", description: "Lightweight performance running shoes with responsive cushioning.",
-    categoryId: "4", price: 119.99, originalPrice: 159.99, stock: 29, image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400&h=400&fit=crop",
+    categoryId: "4", brand: "FlexFit", productType: "Footwear", price: 119.99, originalPrice: 159.99, stock: 29, image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400&h=400&fit=crop",
     totalSold: 521, isFeatured: true, isFlashSale: false, status: "active", rating: 4.6, reviewCount: 287, createdAt: "2026-02-20T10:00:00Z",
   },
   {
     id: "11", name: "Stainless Steel Water Bottle", description: "Double-wall vacuum insulated bottle.",
-    categoryId: "4", price: 24.99, originalPrice: 35.00, stock: 150, image: "https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=400&h=400&fit=crop",
+    categoryId: "4", brand: "HydroCore", productType: "Accessories", price: 24.99, originalPrice: 35.00, stock: 150, image: "https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=400&h=400&fit=crop",
     totalSold: 678, isFeatured: false, isFlashSale: false, status: "active", rating: 4.3, reviewCount: 342, createdAt: "2026-01-15T10:00:00Z",
   },
   {
     id: "12", name: "Wireless Charging Pad", description: "Fast wireless charging pad compatible with all Qi-enabled devices.",
-    categoryId: "1", price: 19.99, originalPrice: 29.99, stock: 89, image: "https://images.unsplash.com/photo-1586953208448-b95a79798f07?w=400&h=400&fit=crop",
+    categoryId: "1", brand: "TechNova", productType: "Chargers", price: 19.99, originalPrice: 29.99, stock: 89, image: "https://images.unsplash.com/photo-1586953208448-b95a79798f07?w=400&h=400&fit=crop",
     totalSold: 432, isFeatured: false, isFlashSale: true, status: "active", rating: 4.0, reviewCount: 198, createdAt: "2026-02-10T10:00:00Z",
   },
 ];

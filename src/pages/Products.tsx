@@ -22,6 +22,7 @@ export default function Products() {
   const [selectedCategories, setSelectedCategories] = useState<string[]>(categoryFilter ? [categoryFilter] : []);
   const [priceRange, setPriceRange] = useState<[number, number]>([0, 500]);
   const [selectedBrands, setSelectedBrands] = useState<string[]>([]);
+  const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
   const [selectedRatings, setSelectedRatings] = useState<number[]>([]);
   const [onlyOnSale, setOnlyOnSale] = useState(false);
   const [onlyInStock, setOnlyInStock] = useState(false);
@@ -31,15 +32,17 @@ export default function Products() {
   useEffect(() => { setSearch(searchQuery); }, [searchQuery]);
   useEffect(() => { if (categoryFilter) setSelectedCategories([categoryFilter]); }, [categoryFilter]);
 
-  // Extract unique "brands" from product names (first word or two)
+  // Extract unique brands and product types from real metadata
   const brands = useMemo(() => {
-    const brandSet = new Set<string>();
-    products.filter(p => p.status === "active").forEach(p => {
-      // Use category name as a proxy for brand grouping
-      const words = p.name.split(" ");
-      if (words.length >= 2) brandSet.add(words[0]);
-    });
-    return Array.from(brandSet).sort();
+    const set = new Set<string>();
+    products.filter(p => p.status === "active" && p.brand).forEach(p => set.add(p.brand!));
+    return Array.from(set).sort();
+  }, [products]);
+
+  const productTypes = useMemo(() => {
+    const set = new Set<string>();
+    products.filter(p => p.status === "active" && p.productType).forEach(p => set.add(p.productType!));
+    return Array.from(set).sort();
   }, [products]);
 
   // Price bounds
@@ -58,7 +61,8 @@ export default function Products() {
     if (selectedCategories.length > 0) list = list.filter((p) => selectedCategories.includes(p.categoryId));
     if (search) { const q = search.toLowerCase(); list = list.filter((p) => p.name.toLowerCase().includes(q) || p.description.toLowerCase().includes(q)); }
     list = list.filter(p => p.price >= priceRange[0] && p.price <= priceRange[1]);
-    if (selectedBrands.length > 0) list = list.filter(p => selectedBrands.some(b => p.name.startsWith(b)));
+    if (selectedBrands.length > 0) list = list.filter(p => p.brand && selectedBrands.includes(p.brand));
+    if (selectedTypes.length > 0) list = list.filter(p => p.productType && selectedTypes.includes(p.productType));
     if (selectedRatings.length > 0) list = list.filter(p => selectedRatings.some(r => p.rating >= r && p.rating < r + 1));
     if (onlyOnSale) list = list.filter(p => p.originalPrice && p.originalPrice > p.price);
     if (onlyInStock) list = list.filter(p => p.stock > 0);
@@ -70,13 +74,14 @@ export default function Products() {
       default: list.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
     }
     return list;
-  }, [search, sort, selectedCategories, products, priceRange, selectedBrands, selectedRatings, onlyOnSale, onlyInStock]);
+  }, [search, sort, selectedCategories, products, priceRange, selectedBrands, selectedTypes, selectedRatings, onlyOnSale, onlyInStock]);
 
-  const activeFilterCount = (selectedCategories.length > 0 ? 1 : 0) + (selectedBrands.length > 0 ? 1 : 0) + (selectedRatings.length > 0 ? 1 : 0) + (onlyOnSale ? 1 : 0) + (onlyInStock ? 1 : 0) + (priceRange[0] > priceBounds.min || priceRange[1] < priceBounds.max ? 1 : 0);
+  const activeFilterCount = (selectedCategories.length > 0 ? 1 : 0) + (selectedBrands.length > 0 ? 1 : 0) + (selectedTypes.length > 0 ? 1 : 0) + (selectedRatings.length > 0 ? 1 : 0) + (onlyOnSale ? 1 : 0) + (onlyInStock ? 1 : 0) + (priceRange[0] > priceBounds.min || priceRange[1] < priceBounds.max ? 1 : 0);
 
   const clearAllFilters = () => {
     setSelectedCategories([]);
     setSelectedBrands([]);
+    setSelectedTypes([]);
     setSelectedRatings([]);
     setOnlyOnSale(false);
     setOnlyInStock(false);
@@ -93,6 +98,10 @@ export default function Products() {
 
   const toggleRating = (rating: number) => {
     setSelectedRatings(prev => prev.includes(rating) ? prev.filter(r => r !== rating) : [...prev, rating]);
+  };
+
+  const toggleType = (type: string) => {
+    setSelectedTypes(prev => prev.includes(type) ? prev.filter(t => t !== type) : [...prev, type]);
   };
 
   const scrollCategories = (dir: "left" | "right") => {
@@ -161,6 +170,22 @@ export default function Products() {
             <label key={brand} className="flex items-center gap-2 cursor-pointer text-sm">
               <Checkbox checked={selectedBrands.includes(brand)} onCheckedChange={() => toggleBrand(brand)} />
               <span>{brand}</span>
+            </label>
+          ))}
+        </CollapsibleContent>
+      </Collapsible>
+
+      <Separator />
+
+      <Collapsible defaultOpen>
+        <CollapsibleTrigger className="flex items-center justify-between w-full text-sm font-semibold py-1">
+          Product Type <ChevronDown className="h-4 w-4" />
+        </CollapsibleTrigger>
+        <CollapsibleContent className="pt-2 space-y-2 max-h-40 overflow-y-auto">
+          {productTypes.map(type => (
+            <label key={type} className="flex items-center gap-2 cursor-pointer text-sm">
+              <Checkbox checked={selectedTypes.includes(type)} onCheckedChange={() => toggleType(type)} />
+              <span>{type}</span>
             </label>
           ))}
         </CollapsibleContent>
@@ -286,6 +311,11 @@ export default function Products() {
           {selectedBrands.map(brand => (
             <Badge key={brand} variant="secondary" className="gap-1 cursor-pointer" onClick={() => toggleBrand(brand)}>
               {brand} <X className="h-3 w-3" />
+            </Badge>
+          ))}
+          {selectedTypes.map(type => (
+            <Badge key={type} variant="secondary" className="gap-1 cursor-pointer" onClick={() => toggleType(type)}>
+              {type} <X className="h-3 w-3" />
             </Badge>
           ))}
           {(priceRange[0] > priceBounds.min || priceRange[1] < priceBounds.max) && (

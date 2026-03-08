@@ -21,19 +21,19 @@ export default function AdminProducts() {
 
   const filtered = products.filter((p) => p.name.toLowerCase().includes(search.toLowerCase()));
 
-  const emptyForm = { name: "", description: "", categoryId: "", price: 0, originalPrice: 0, stock: 0, image: "", images: [] as string[], isFeatured: false, isFlashSale: false, status: "active" as Product["status"] };
+  const emptyForm = { name: "", description: "", categoryId: "", brand: "", productType: "", price: 0, originalPrice: 0, stock: 0, image: "", images: [] as string[], isFeatured: false, isFlashSale: false, status: "active" as Product["status"] };
   const [form, setForm] = useState(emptyForm);
 
   const openAdd = () => { setEditingProduct(null); setForm(emptyForm); setIsOpen(true); };
-  const openEdit = (p: Product) => { setEditingProduct(p); setForm({ name: p.name, description: p.description, categoryId: p.categoryId, price: p.price, originalPrice: p.originalPrice || 0, stock: p.stock, image: p.image, images: p.images || [], isFeatured: p.isFeatured, isFlashSale: p.isFlashSale, status: p.status }); setIsOpen(true); };
+  const openEdit = (p: Product) => { setEditingProduct(p); setForm({ name: p.name, description: p.description, categoryId: p.categoryId, brand: p.brand || "", productType: p.productType || "", price: p.price, originalPrice: p.originalPrice || 0, stock: p.stock, image: p.image, images: p.images || [], isFeatured: p.isFeatured, isFlashSale: p.isFlashSale, status: p.status }); setIsOpen(true); };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (editingProduct) {
-      updateProduct(editingProduct.id, { ...form, originalPrice: form.originalPrice || undefined });
+      updateProduct(editingProduct.id, { ...form, originalPrice: form.originalPrice || undefined, brand: form.brand || undefined, productType: form.productType || undefined });
       toast.success("Product updated!");
     } else {
-      addProduct({ ...form, originalPrice: form.originalPrice || undefined });
+      addProduct({ ...form, originalPrice: form.originalPrice || undefined, brand: form.brand || undefined, productType: form.productType || undefined });
       toast.success("Product added!");
     }
     setIsOpen(false);
@@ -70,6 +70,10 @@ export default function AdminProducts() {
           <form className="space-y-4" onSubmit={handleSubmit}>
             <div><Label>Name</Label><Input required value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} /></div>
             <div><Label>Description</Label><Textarea value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} rows={3} /></div>
+            <div className="grid grid-cols-2 gap-4">
+              <div><Label>Brand</Label><Input value={form.brand} onChange={(e) => setForm({ ...form, brand: e.target.value })} placeholder="e.g. SoundMax" /></div>
+              <div><Label>Product Type</Label><Input value={form.productType} onChange={(e) => setForm({ ...form, productType: e.target.value })} placeholder="e.g. Headphones" /></div>
+            </div>
             <div className="grid grid-cols-2 gap-4">
               <div><Label>Price</Label><Input type="number" step="0.01" required value={form.price} onChange={(e) => setForm({ ...form, price: Number(e.target.value) })} /></div>
               <div><Label>Original Price</Label><Input type="number" step="0.01" value={form.originalPrice} onChange={(e) => setForm({ ...form, originalPrice: Number(e.target.value) })} /></div>
