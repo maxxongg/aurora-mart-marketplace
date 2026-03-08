@@ -4,8 +4,10 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Mail, Phone, MapPin } from "lucide-react";
 import { toast } from "sonner";
+import { useStore } from "@/context/StoreContext";
 
 export default function Contact() {
+  const { settings } = useStore();
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     toast.success("Message sent! We'll get back to you soon.");
@@ -26,9 +28,9 @@ export default function Contact() {
           <h2 className="font-display text-xl font-bold">Get in Touch</h2>
           <p className="text-muted-foreground">Have questions? We'd love to hear from you. Send us a message and we'll respond as soon as possible.</p>
           <div className="space-y-4">
-            <div className="flex items-center gap-3"><div className="h-10 w-10 rounded-full bg-accent flex items-center justify-center"><Mail className="h-5 w-5 text-accent-foreground" /></div><div><p className="font-medium text-sm">Email</p><p className="text-sm text-muted-foreground">support@auroramart.com</p></div></div>
-            <div className="flex items-center gap-3"><div className="h-10 w-10 rounded-full bg-accent flex items-center justify-center"><Phone className="h-5 w-5 text-accent-foreground" /></div><div><p className="font-medium text-sm">Phone</p><p className="text-sm text-muted-foreground">+880 1234-567890</p></div></div>
-            <div className="flex items-center gap-3"><div className="h-10 w-10 rounded-full bg-accent flex items-center justify-center"><MapPin className="h-5 w-5 text-accent-foreground" /></div><div><p className="font-medium text-sm">Address</p><p className="text-sm text-muted-foreground">Dhaka, Bangladesh</p></div></div>
+            <div className="flex items-center gap-3"><div className="h-10 w-10 rounded-full bg-accent flex items-center justify-center"><Mail className="h-5 w-5 text-accent-foreground" /></div><div><p className="font-medium text-sm">Email</p><p className="text-sm text-muted-foreground">{settings.contactEmail}</p></div></div>
+            <div className="flex items-center gap-3"><div className="h-10 w-10 rounded-full bg-accent flex items-center justify-center"><Phone className="h-5 w-5 text-accent-foreground" /></div><div><p className="font-medium text-sm">Phone</p><p className="text-sm text-muted-foreground">{settings.contactPhone}</p></div></div>
+            <div className="flex items-center gap-3"><div className="h-10 w-10 rounded-full bg-accent flex items-center justify-center"><MapPin className="h-5 w-5 text-accent-foreground" /></div><div><p className="font-medium text-sm">Address</p><p className="text-sm text-muted-foreground">{settings.contactAddress}</p></div></div>
           </div>
         </div>
       </div>
