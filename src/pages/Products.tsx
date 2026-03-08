@@ -61,7 +61,8 @@ export default function Products() {
     if (selectedCategories.length > 0) list = list.filter((p) => selectedCategories.includes(p.categoryId));
     if (search) { const q = search.toLowerCase(); list = list.filter((p) => p.name.toLowerCase().includes(q) || p.description.toLowerCase().includes(q)); }
     list = list.filter(p => p.price >= priceRange[0] && p.price <= priceRange[1]);
-    if (selectedBrands.length > 0) list = list.filter(p => selectedBrands.some(b => p.name.startsWith(b)));
+    if (selectedBrands.length > 0) list = list.filter(p => p.brand && selectedBrands.includes(p.brand));
+    if (selectedTypes.length > 0) list = list.filter(p => p.productType && selectedTypes.includes(p.productType));
     if (selectedRatings.length > 0) list = list.filter(p => selectedRatings.some(r => p.rating >= r && p.rating < r + 1));
     if (onlyOnSale) list = list.filter(p => p.originalPrice && p.originalPrice > p.price);
     if (onlyInStock) list = list.filter(p => p.stock > 0);
