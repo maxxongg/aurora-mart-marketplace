@@ -76,7 +76,7 @@ export default function Products() {
     return list;
   }, [search, sort, selectedCategories, products, priceRange, selectedBrands, selectedTypes, selectedRatings, onlyOnSale, onlyInStock]);
 
-  const activeFilterCount = (selectedCategories.length > 0 ? 1 : 0) + (selectedBrands.length > 0 ? 1 : 0) + (selectedRatings.length > 0 ? 1 : 0) + (onlyOnSale ? 1 : 0) + (onlyInStock ? 1 : 0) + (priceRange[0] > priceBounds.min || priceRange[1] < priceBounds.max ? 1 : 0);
+  const activeFilterCount = (selectedCategories.length > 0 ? 1 : 0) + (selectedBrands.length > 0 ? 1 : 0) + (selectedTypes.length > 0 ? 1 : 0) + (selectedRatings.length > 0 ? 1 : 0) + (onlyOnSale ? 1 : 0) + (onlyInStock ? 1 : 0) + (priceRange[0] > priceBounds.min || priceRange[1] < priceBounds.max ? 1 : 0);
 
   const clearAllFilters = () => {
     setSelectedCategories([]);
