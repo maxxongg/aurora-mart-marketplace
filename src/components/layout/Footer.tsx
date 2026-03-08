@@ -44,8 +44,12 @@ export default function Footer() {
             </div>
           </div>
         </div>
-        <div className="border-t border-background/10 mt-8 pt-8 text-center text-sm">
-          © {new Date().getFullYear()} {settings.storeName}. All rights reserved.
+        <div className="border-t border-background/10 mt-8 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm">
+          <span>© {new Date().getFullYear()} {settings.storeName}. All rights reserved.</span>
+          <nav className="flex gap-4">
+            <Link to="/terms" className="hover:text-primary transition-colors">Terms of Service</Link>
+            <Link to="/privacy" className="hover:text-primary transition-colors">Privacy Policy</Link>
+          </nav>
         </div>
       </div>
     </footer>

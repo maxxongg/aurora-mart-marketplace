@@ -29,6 +29,8 @@ import FAQ from "./pages/support/FAQ";
 import Shipping from "./pages/support/Shipping";
 import Returns from "./pages/support/Returns";
 import Contact from "./pages/support/Contact";
+import TermsOfService from "./pages/support/TermsOfService";
+import PrivacyPolicy from "./pages/support/PrivacyPolicy";
 
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import AdminProducts from "./pages/admin/AdminProducts";
@@ -73,6 +75,8 @@ const App = () => (
                     <Route path="/shipping" element={<Shipping />} />
                     <Route path="/returns" element={<Returns />} />
                     <Route path="/contact" element={<Contact />} />
+                    <Route path="/terms" element={<TermsOfService />} />
+                    <Route path="/privacy" element={<PrivacyPolicy />} />
                   </Route>
 
                   <Route path="/auth" element={<Auth />} />
