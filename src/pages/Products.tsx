@@ -22,6 +22,7 @@ export default function Products() {
   const [selectedCategories, setSelectedCategories] = useState<string[]>(categoryFilter ? [categoryFilter] : []);
   const [priceRange, setPriceRange] = useState<[number, number]>([0, 500]);
   const [selectedBrands, setSelectedBrands] = useState<string[]>([]);
+  const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
   const [selectedRatings, setSelectedRatings] = useState<number[]>([]);
   const [onlyOnSale, setOnlyOnSale] = useState(false);
   const [onlyInStock, setOnlyInStock] = useState(false);
