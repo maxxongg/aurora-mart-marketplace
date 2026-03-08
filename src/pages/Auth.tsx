@@ -83,7 +83,7 @@ export default function Auth() {
           >
             <Store className={`h-5 w-5 ${panel === "seller" ? "text-primary" : "text-muted-foreground"}`} />
             <div className="text-left">
-              <p className={`text-sm font-semibold ${panel === "seller" ? "text-primary" : ""}`}>Seller / Admin</p>
+              <p className={`text-sm font-semibold ${panel === "seller" ? "text-primary" : ""}`}>Seller</p>
               <p className="text-[10px] text-muted-foreground">Manage store</p>
             </div>
           </button>
