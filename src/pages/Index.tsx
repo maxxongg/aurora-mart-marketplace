@@ -118,37 +118,37 @@ export default function Index() {
       )}
 
       {activeOffer && (
-        <section className="container mx-auto">
-          <Link to={activeOffer.link} className="gradient-hero rounded-xl p-6 sm:p-8 md:p-12 flex flex-col md:flex-row items-center justify-between gap-5 sm:gap-6 block">
+        <section className="container mx-auto px-4">
+          <Link to={activeOffer.link} className="gradient-hero rounded-xl p-5 sm:p-8 md:p-12 flex flex-col md:flex-row items-center justify-between gap-4 sm:gap-6 block">
             <div className="text-center md:text-left">
-              <h2 className="font-display text-xl sm:text-2xl md:text-3xl font-bold mb-2">{activeOffer.title}</h2>
-              <p className="text-muted-foreground text-sm sm:text-base mb-4">{activeOffer.subtitle}</p>
-              <Button className="gradient-primary border-0 text-primary-foreground">Shop Now <ArrowRight className="h-4 w-4 ml-1" /></Button>
+              <h2 className="font-display text-lg sm:text-2xl md:text-3xl font-bold mb-1.5 sm:mb-2">{activeOffer.title}</h2>
+              <p className="text-muted-foreground text-xs sm:text-base mb-3 sm:mb-4">{activeOffer.subtitle}</p>
+              <Button size="sm" className="gradient-primary border-0 text-primary-foreground sm:h-10 sm:px-4">Shop Now <ArrowRight className="h-4 w-4 ml-1" /></Button>
             </div>
-            <img src={activeOffer.image} alt={activeOffer.title} className="rounded-lg w-full md:w-72 h-40 sm:h-48 object-cover" />
+            <img src={activeOffer.image} alt={activeOffer.title} className="rounded-lg w-full md:w-72 h-36 sm:h-48 object-cover" />
           </Link>
         </section>
       )}
 
-      <section className="container mx-auto">
-        <div className="flex items-center justify-between mb-4 sm:mb-6"><h2 className="font-display text-xl sm:text-2xl font-bold">New Arrivals</h2><Button variant="ghost" size="sm" asChild><Link to="/new-arrivals">View All <ArrowRight className="h-4 w-4 ml-1" /></Link></Button></div>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">{newArrivals.slice(0, 4).map((p) => <ProductCard key={p.id} product={p} />)}</div>
+      <section className="container mx-auto px-4">
+        <div className="flex items-center justify-between mb-3 sm:mb-6"><h2 className="font-display text-lg sm:text-2xl font-bold">New Arrivals</h2><Button variant="ghost" size="sm" asChild><Link to="/new-arrivals">View All <ArrowRight className="h-4 w-4 ml-1" /></Link></Button></div>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-2.5 sm:gap-4">{newArrivals.slice(0, 4).map((p) => <ProductCard key={p.id} product={p} />)}</div>
       </section>
 
-      <section className="container mx-auto">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
+      <section className="container mx-auto px-4">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-2.5 sm:gap-4">
           {trustBadges.map(({ Icon, title, desc }) => (
-            <motion.div key={title} whileHover={{ y: -2 }} className="flex flex-col sm:flex-row items-center sm:items-center gap-2 sm:gap-3 p-3 sm:p-4 rounded-lg border bg-card text-center sm:text-left">
-              <div className="h-9 w-9 sm:h-10 sm:w-10 rounded-full gradient-primary flex items-center justify-center shrink-0"><Icon className="h-4 w-4 sm:h-5 sm:w-5 text-primary-foreground" /></div>
-              <div><p className="font-medium text-xs sm:text-sm">{title}</p><p className="text-[10px] sm:text-xs text-muted-foreground">{desc}</p></div>
+            <motion.div key={title} whileHover={{ y: -2 }} className="flex flex-col items-center gap-1.5 sm:flex-row sm:items-center sm:gap-3 p-2.5 sm:p-4 rounded-lg border bg-card text-center sm:text-left">
+              <div className="h-8 w-8 sm:h-10 sm:w-10 rounded-full gradient-primary flex items-center justify-center shrink-0"><Icon className="h-3.5 w-3.5 sm:h-5 sm:w-5 text-primary-foreground" /></div>
+              <div><p className="font-medium text-[11px] sm:text-sm leading-tight">{title}</p><p className="text-[9px] sm:text-xs text-muted-foreground">{desc}</p></div>
             </motion.div>
           ))}
         </div>
       </section>
 
-      <section className="container mx-auto">
-        <div className="flex items-center justify-between mb-4 sm:mb-6"><h2 className="font-display text-xl sm:text-2xl font-bold">Best Sellers</h2><Button variant="ghost" size="sm" asChild><Link to="/best-sellers">View All <ArrowRight className="h-4 w-4 ml-1" /></Link></Button></div>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">{bestSellers.slice(0, 4).map((p) => <ProductCard key={p.id} product={p} />)}</div>
+      <section className="container mx-auto px-4">
+        <div className="flex items-center justify-between mb-3 sm:mb-6"><h2 className="font-display text-lg sm:text-2xl font-bold">Best Sellers</h2><Button variant="ghost" size="sm" asChild><Link to="/best-sellers">View All <ArrowRight className="h-4 w-4 ml-1" /></Link></Button></div>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-2.5 sm:gap-4">{bestSellers.slice(0, 4).map((p) => <ProductCard key={p.id} product={p} />)}</div>
       </section>
     </div>
   );
