@@ -7,7 +7,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useAuth } from "@/context/AuthContext";
 import { useStore } from "@/context/StoreContext";
 import { toast } from "sonner";
-import { User, ShieldCheck, Store } from "lucide-react";
+import { User, ShieldCheck, Store, Eye, EyeOff } from "lucide-react";
 
 type AuthPanel = "customer" | "seller";
 
