@@ -1,6 +1,6 @@
 import { Link, useLocation } from "react-router-dom";
 import AnimatedOutlet from "@/components/AnimatedOutlet";
-import { LayoutDashboard, Package, FolderTree, Image, ShoppingBag, Users, Settings, LogOut, ChevronLeft, Ticket, Megaphone } from "lucide-react";
+import { LayoutDashboard, Package, FolderTree, Image, ShoppingBag, Users, Settings, LogOut, ChevronLeft, Ticket, Megaphone, ImageIcon, Navigation } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 import { Button } from "@/components/ui/button";
 import { NavLink } from "@/components/NavLink";
