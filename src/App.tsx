@@ -42,6 +42,8 @@ import AdminCustomers from "./pages/admin/AdminCustomers";
 import AdminSettings from "./pages/admin/AdminSettings";
 import AdminCoupons from "./pages/admin/AdminCoupons";
 import AdminOffers from "./pages/admin/AdminOffers";
+import AdminMedia from "./pages/admin/AdminMedia";
+import AdminNavigation from "./pages/admin/AdminNavigation";
 
 import SellerDashboard from "./pages/seller/SellerDashboard";
 import SellerProducts from "./pages/seller/SellerProducts";
