@@ -19,7 +19,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
 
   const login = async (email: string, _password: string) => {
-    const found = mockUsers.find((u) => u.email === email);
+    const found = defaultUsers.find((u) => u.email === email);
     if (found) {
       setUser(found);
       return true;
