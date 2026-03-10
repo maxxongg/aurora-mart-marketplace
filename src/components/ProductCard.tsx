@@ -1,12 +1,14 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Heart, ShoppingCart, Star } from "lucide-react";
 import { Product } from "@/types";
 import { Button } from "@/components/ui/button";
 import { useCart } from "@/context/CartContext";
 import { useWishlist } from "@/context/WishlistContext";
+import { useAuth } from "@/context/AuthContext";
 import { useStore } from "@/context/StoreContext";
 import { Badge } from "@/components/ui/badge";
 import { motion } from "framer-motion";
+import { toast } from "sonner";
 
 interface ProductCardProps {
   product: Product;
@@ -15,9 +17,22 @@ interface ProductCardProps {
 export default function ProductCard({ product }: ProductCardProps) {
   const { addItem } = useCart();
   const { toggleItem, isInWishlist } = useWishlist();
+  const { isAuthenticated } = useAuth();
   const { settings } = useStore();
+  const navigate = useNavigate();
   const discount = product.originalPrice ? Math.round((1 - product.price / product.originalPrice) * 100) : 0;
   const c = settings.currency;
+
+  const handleAddToCart = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (!isAuthenticated) {
+      toast.info("Please register or log in to add items to cart");
+      navigate(`/auth?tab=register&redirect=/product/${product.id}`);
+      return;
+    }
+    addItem(product);
+  };
 
   return (
     <motion.div
@@ -57,7 +72,7 @@ export default function ProductCard({ product }: ProductCardProps) {
               <span className="text-[10px] sm:text-xs text-muted-foreground line-through ml-1 sm:ml-1.5">{c}{product.originalPrice.toFixed(2)}</span>
             )}
           </div>
-          <Button size="icon" className="h-7 w-7 sm:h-8 sm:w-8 gradient-primary border-0 text-primary-foreground shrink-0" onClick={() => addItem(product)}>
+          <Button size="icon" className="h-7 w-7 sm:h-8 sm:w-8 gradient-primary border-0 text-primary-foreground shrink-0" onClick={handleAddToCart}>
             <ShoppingCart className="h-3 w-3 sm:h-3.5 sm:w-3.5" />
           </Button>
         </div>

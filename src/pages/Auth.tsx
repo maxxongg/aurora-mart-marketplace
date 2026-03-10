@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams, Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -7,12 +7,15 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useAuth } from "@/context/AuthContext";
 import { useStore } from "@/context/StoreContext";
 import { toast } from "sonner";
-import { User, ShieldCheck, Store, Eye, EyeOff } from "lucide-react";
+import { User, ShieldCheck, Store, Eye, EyeOff, Home } from "lucide-react";
 
 type AuthPanel = "customer" | "seller";
 
 export default function Auth() {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const redirectTo = searchParams.get("redirect") || "/";
+  const defaultTab = searchParams.get("tab") || "login";
   const { login, register } = useAuth();
   const { settings } = useStore();
   const [panel, setPanel] = useState<AuthPanel>("customer");
@@ -39,14 +42,14 @@ export default function Auth() {
   const handleCustomerLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     const result = await login(custEmail, custPass, "customer");
-    if (result.success) { toast.success("Welcome back!"); navigate("/"); }
+    if (result.success) { toast.success("Welcome back!"); navigate(redirectTo); }
     else toast.error(result.message || "Invalid credentials");
   };
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
     const ok = await register(regName, regEmail, regPhone, regPass);
-    if (ok) { toast.success("Account created!"); navigate("/"); }
+    if (ok) { toast.success("Account created! You are now logged in."); navigate(redirectTo); }
   };
 
   const handleSellerLogin = async (e: React.FormEvent) => {
@@ -65,6 +68,11 @@ export default function Auth() {
   return (
     <div className="min-h-[80vh] flex items-center justify-center py-12">
       <div className="w-full max-w-md mx-auto px-4">
+        <div className="flex justify-start mb-4">
+          <Button variant="ghost" size="sm" asChild className="text-muted-foreground hover:text-foreground">
+            <Link to="/"><Home className="h-4 w-4 mr-1.5" /> Back to Home</Link>
+          </Button>
+        </div>
         <div className="text-center mb-6">
           <h1 className="font-display text-3xl font-bold">Welcome to <span className="text-gradient">{settings.storeName}</span></h1>
           <p className="text-muted-foreground mt-2">Choose your login type</p>
@@ -97,7 +105,7 @@ export default function Auth() {
         {/* Customer Panel */}
         {panel === "customer" && (
           <div className="bg-card border rounded-xl p-6">
-            <Tabs defaultValue="login">
+            <Tabs defaultValue={defaultTab === "register" ? "register" : "login"}>
               <TabsList className="w-full mb-6">
                 <TabsTrigger value="login" className="flex-1">Sign In</TabsTrigger>
                 <TabsTrigger value="register" className="flex-1">Register</TabsTrigger>

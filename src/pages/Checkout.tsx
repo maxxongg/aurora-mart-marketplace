@@ -56,6 +56,7 @@ export default function Checkout() {
     navigate("/orders");
   };
 
+  if (!user) { navigate("/auth?tab=register&redirect=/checkout"); return null; }
   if (items.length === 0) { navigate("/cart"); return null; }
 
   return (
