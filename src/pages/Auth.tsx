@@ -42,7 +42,7 @@ export default function Auth() {
   const handleCustomerLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     const result = await login(custEmail, custPass, "customer");
-    if (result.success) { toast.success("Welcome back!"); navigate("/"); }
+    if (result.success) { toast.success("Welcome back!"); navigate(redirectTo); }
     else toast.error(result.message || "Invalid credentials");
   };
 
