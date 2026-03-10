@@ -68,6 +68,11 @@ export default function Auth() {
   return (
     <div className="min-h-[80vh] flex items-center justify-center py-12">
       <div className="w-full max-w-md mx-auto px-4">
+        <div className="flex justify-start mb-4">
+          <Button variant="ghost" size="sm" asChild className="text-muted-foreground hover:text-foreground">
+            <Link to="/"><Home className="h-4 w-4 mr-1.5" /> Back to Home</Link>
+          </Button>
+        </div>
         <div className="text-center mb-6">
           <h1 className="font-display text-3xl font-bold">Welcome to <span className="text-gradient">{settings.storeName}</span></h1>
           <p className="text-muted-foreground mt-2">Choose your login type</p>
