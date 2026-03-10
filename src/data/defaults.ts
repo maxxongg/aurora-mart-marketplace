@@ -61,7 +61,7 @@ export const defaultProducts: Product[] = [
   {
     id: "10", name: "Running Shoes Elite", description: "Lightweight performance running shoes with responsive cushioning.",
     categoryId: "4", brand: "FlexFit", productType: "Footwear", price: 119.99, originalPrice: 159.99, stock: 29, image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400&h=400&fit=crop",
-    totalSold: 521, isFeatured: true, isFlashSale: false, status: "active", rating: 4.6, reviewCount: 287, createdAt: "2026-02-20T10:00:00Z",
+    totalSold: 521, isFeatured: true, isFlashSale: false, status: "active", rating: 4.6, reviewCount: 287, sizes: ["7", "8", "9", "10", "11", "12"], colors: ["Red", "Black", "White", "Blue"], createdAt: "2026-02-20T10:00:00Z",
   },
   {
     id: "11", name: "Stainless Steel Water Bottle", description: "Double-wall vacuum insulated bottle.",
