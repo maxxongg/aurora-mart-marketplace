@@ -31,7 +31,7 @@ export const defaultProducts: Product[] = [
   {
     id: "4", name: "Organic Cotton T-Shirt", description: "Sustainably sourced 100% organic cotton t-shirt.",
     categoryId: "2", brand: "EcoWear", productType: "Clothing", price: 29.99, originalPrice: 45.00, stock: 120, image: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400&h=400&fit=crop",
-    totalSold: 412, isFeatured: false, isFlashSale: true, status: "active", rating: 4.1, reviewCount: 203, createdAt: "2026-02-28T10:00:00Z",
+    totalSold: 412, isFeatured: false, isFlashSale: true, status: "active", rating: 4.1, reviewCount: 203, sizes: ["S", "M", "L", "XL", "XXL"], colors: ["White", "Black", "Navy", "Grey"], createdAt: "2026-02-28T10:00:00Z",
   },
   {
     id: "5", name: "Ceramic Plant Pot Set", description: "Set of 3 modern ceramic plant pots with drainage holes.",
