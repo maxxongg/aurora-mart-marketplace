@@ -16,7 +16,7 @@ export const defaultProducts: Product[] = [
     id: "1", name: "Wireless Bluetooth Headphones", description: "Premium wireless headphones with active noise cancellation, 30-hour battery life, and ultra-comfortable over-ear design.",
     categoryId: "1", brand: "SoundMax", productType: "Headphones", price: 79.99, originalPrice: 129.99, stock: 45, image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400&h=400&fit=crop",
     images: ["https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800&h=800&fit=crop", "https://images.unsplash.com/photo-1484704849700-f032a568e944?w=800&h=800&fit=crop"],
-    totalSold: 234, isFeatured: true, isFlashSale: true, status: "active", rating: 4.5, reviewCount: 128, createdAt: "2026-03-01T10:00:00Z",
+    totalSold: 234, isFeatured: true, isFlashSale: true, status: "active", rating: 4.5, reviewCount: 128, sizes: ["Standard", "Compact"], colors: ["Black", "White", "Silver"], createdAt: "2026-03-01T10:00:00Z",
   },
   {
     id: "2", name: "Smart Watch Pro X", description: "Advanced smartwatch with health monitoring, GPS tracking, and a stunning AMOLED display.",
