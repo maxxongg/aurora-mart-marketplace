@@ -25,7 +25,7 @@ export default function AdminProducts() {
   const [form, setForm] = useState(emptyForm);
 
   const openAdd = () => { setEditingProduct(null); setForm(emptyForm); setIsOpen(true); };
-  const openEdit = (p: Product) => { setEditingProduct(p); setForm({ name: p.name, description: p.description, categoryId: p.categoryId, brand: p.brand || "", productType: p.productType || "", price: p.price, originalPrice: p.originalPrice || 0, stock: p.stock, image: p.image, images: p.images || [], isFeatured: p.isFeatured, isFlashSale: p.isFlashSale, status: p.status }); setIsOpen(true); };
+  const openEdit = (p: Product) => { setEditingProduct(p); setForm({ name: p.name, description: p.description, categoryId: p.categoryId, brand: p.brand || "", productType: p.productType || "", price: p.price, originalPrice: p.originalPrice || 0, stock: p.stock, image: p.image, images: p.images || [], isFeatured: p.isFeatured, isFlashSale: p.isFlashSale, status: p.status, sizes: (p.sizes || []).join(", "), colors: (p.colors || []).join(", ") }); setIsOpen(true); };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
