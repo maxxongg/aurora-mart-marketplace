@@ -13,6 +13,9 @@ type AuthPanel = "customer" | "seller";
 
 export default function Auth() {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const redirectTo = searchParams.get("redirect") || "/";
+  const defaultTab = searchParams.get("tab") || "login";
   const { login, register } = useAuth();
   const { settings } = useStore();
   const [panel, setPanel] = useState<AuthPanel>("customer");
