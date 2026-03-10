@@ -1,12 +1,14 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Heart, ShoppingCart, Star } from "lucide-react";
 import { Product } from "@/types";
 import { Button } from "@/components/ui/button";
 import { useCart } from "@/context/CartContext";
 import { useWishlist } from "@/context/WishlistContext";
+import { useAuth } from "@/context/AuthContext";
 import { useStore } from "@/context/StoreContext";
 import { Badge } from "@/components/ui/badge";
 import { motion } from "framer-motion";
+import { toast } from "sonner";
 
 interface ProductCardProps {
   product: Product;
