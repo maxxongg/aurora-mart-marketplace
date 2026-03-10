@@ -17,9 +17,22 @@ interface ProductCardProps {
 export default function ProductCard({ product }: ProductCardProps) {
   const { addItem } = useCart();
   const { toggleItem, isInWishlist } = useWishlist();
+  const { isAuthenticated } = useAuth();
   const { settings } = useStore();
+  const navigate = useNavigate();
   const discount = product.originalPrice ? Math.round((1 - product.price / product.originalPrice) * 100) : 0;
   const c = settings.currency;
+
+  const handleAddToCart = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (!isAuthenticated) {
+      toast.info("Please register or log in to add items to cart");
+      navigate(`/auth?tab=register&redirect=/product/${product.id}`);
+      return;
+    }
+    addItem(product);
+  };
 
   return (
     <motion.div
