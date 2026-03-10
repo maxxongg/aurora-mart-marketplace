@@ -21,19 +21,23 @@ export default function AdminProducts() {
 
   const filtered = products.filter((p) => p.name.toLowerCase().includes(search.toLowerCase()));
 
-  const emptyForm = { name: "", description: "", categoryId: "", brand: "", productType: "", price: 0, originalPrice: 0, stock: 0, image: "", images: [] as string[], isFeatured: false, isFlashSale: false, status: "active" as Product["status"] };
+  const emptyForm = { name: "", description: "", categoryId: "", brand: "", productType: "", price: 0, originalPrice: 0, stock: 0, image: "", images: [] as string[], isFeatured: false, isFlashSale: false, status: "active" as Product["status"], sizes: "" , colors: "" };
   const [form, setForm] = useState(emptyForm);
 
   const openAdd = () => { setEditingProduct(null); setForm(emptyForm); setIsOpen(true); };
-  const openEdit = (p: Product) => { setEditingProduct(p); setForm({ name: p.name, description: p.description, categoryId: p.categoryId, brand: p.brand || "", productType: p.productType || "", price: p.price, originalPrice: p.originalPrice || 0, stock: p.stock, image: p.image, images: p.images || [], isFeatured: p.isFeatured, isFlashSale: p.isFlashSale, status: p.status }); setIsOpen(true); };
+  const openEdit = (p: Product) => { setEditingProduct(p); setForm({ name: p.name, description: p.description, categoryId: p.categoryId, brand: p.brand || "", productType: p.productType || "", price: p.price, originalPrice: p.originalPrice || 0, stock: p.stock, image: p.image, images: p.images || [], isFeatured: p.isFeatured, isFlashSale: p.isFlashSale, status: p.status, sizes: (p.sizes || []).join(", "), colors: (p.colors || []).join(", ") }); setIsOpen(true); };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (editingProduct) {
-      updateProduct(editingProduct.id, { ...form, originalPrice: form.originalPrice || undefined, brand: form.brand || undefined, productType: form.productType || undefined });
+      const sizesArr = form.sizes ? form.sizes.split(",").map(s => s.trim()).filter(Boolean) : undefined;
+      const colorsArr = form.colors ? form.colors.split(",").map(s => s.trim()).filter(Boolean) : undefined;
+      updateProduct(editingProduct.id, { ...form, originalPrice: form.originalPrice || undefined, brand: form.brand || undefined, productType: form.productType || undefined, sizes: sizesArr, colors: colorsArr });
       toast.success("Product updated!");
     } else {
-      addProduct({ ...form, originalPrice: form.originalPrice || undefined, brand: form.brand || undefined, productType: form.productType || undefined });
+      const sizesArr = form.sizes ? form.sizes.split(",").map(s => s.trim()).filter(Boolean) : undefined;
+      const colorsArr = form.colors ? form.colors.split(",").map(s => s.trim()).filter(Boolean) : undefined;
+      addProduct({ ...form, originalPrice: form.originalPrice || undefined, brand: form.brand || undefined, productType: form.productType || undefined, sizes: sizesArr, colors: colorsArr });
       toast.success("Product added!");
     }
     setIsOpen(false);
@@ -84,6 +88,10 @@ export default function AdminProducts() {
             </div>
             <div><Label>Image URL</Label><Input value={form.image} onChange={(e) => setForm({ ...form, image: e.target.value })} placeholder="https://..." /></div>
             <div><Label>Status</Label><Select value={form.status} onValueChange={(v: any) => setForm({ ...form, status: v })}><SelectTrigger><SelectValue /></SelectTrigger><SelectContent><SelectItem value="active">Active</SelectItem><SelectItem value="draft">Draft</SelectItem><SelectItem value="archived">Archived</SelectItem></SelectContent></Select></div>
+            <div className="grid grid-cols-2 gap-4">
+              <div><Label>Sizes (comma separated)</Label><Input value={form.sizes} onChange={(e) => setForm({ ...form, sizes: e.target.value })} placeholder="S, M, L, XL" /></div>
+              <div><Label>Colors (comma separated)</Label><Input value={form.colors} onChange={(e) => setForm({ ...form, colors: e.target.value })} placeholder="Red, Blue, Black" /></div>
+            </div>
             <div className="flex gap-6">
               <label className="flex items-center gap-2"><Checkbox checked={form.isFeatured} onCheckedChange={(c) => setForm({ ...form, isFeatured: !!c })} /><span className="text-sm">Featured</span></label>
               <label className="flex items-center gap-2"><Checkbox checked={form.isFlashSale} onCheckedChange={(c) => setForm({ ...form, isFlashSale: !!c })} /><span className="text-sm">Flash Sale</span></label>

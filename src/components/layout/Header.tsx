@@ -260,7 +260,7 @@ export default function Header() {
           </nav>
           <div className="flex items-center gap-0.5 sm:gap-1">
             <Button variant="ghost" size="icon" className="h-8 w-8 sm:h-9 sm:w-9" onClick={() => setIsDark(!isDark)}>{isDark ? <Sun className="h-4 w-4 sm:h-5 sm:w-5" /> : <Moon className="h-4 w-4 sm:h-5 sm:w-5" />}</Button>
-            <Button variant="ghost" size="icon" className="h-8 w-8 sm:h-9 sm:w-9 relative" asChild><Link to="/wishlist"><Heart className="h-4 w-4 sm:h-5 sm:w-5" />{wishlistItems.length > 0 && <Badge className="absolute -top-1 -right-1 h-4 w-4 sm:h-5 sm:w-5 rounded-full p-0 flex items-center justify-center text-[9px] sm:text-[10px] gradient-primary border-0">{wishlistItems.length}</Badge>}</Link></Button>
+            <Button variant="ghost" size="icon" className="h-8 w-8 sm:h-9 sm:w-9 relative" asChild><Link to={isAuthenticated ? "/wishlist" : "/auth"}><Heart className="h-4 w-4 sm:h-5 sm:w-5" />{isAuthenticated && wishlistItems.length > 0 && <Badge className="absolute -top-1 -right-1 h-4 w-4 sm:h-5 sm:w-5 rounded-full p-0 flex items-center justify-center text-[9px] sm:text-[10px] gradient-primary border-0">{wishlistItems.length}</Badge>}</Link></Button>
             <Button variant="ghost" size="icon" className="h-8 w-8 sm:h-9 sm:w-9 relative" asChild><Link to="/cart"><ShoppingCart className="h-4 w-4 sm:h-5 sm:w-5" />{itemCount > 0 && <Badge className="absolute -top-1 -right-1 h-4 w-4 sm:h-5 sm:w-5 rounded-full p-0 flex items-center justify-center text-[9px] sm:text-[10px] gradient-primary border-0">{itemCount}</Badge>}</Link></Button>
             {isAuthenticated ? (
               <DropdownMenu>

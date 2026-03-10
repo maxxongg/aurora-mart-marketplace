@@ -54,7 +54,7 @@ export default function ProductCard({ product }: ProductCardProps) {
           variant="ghost"
           size="icon"
           className="absolute top-1.5 right-1.5 sm:top-2 sm:right-2 h-7 w-7 sm:h-8 sm:w-8 bg-card/80 backdrop-blur-sm hover:bg-card"
-          onClick={() => toggleItem(product)}
+          onClick={(e) => { e.preventDefault(); e.stopPropagation(); if (!isAuthenticated) { toast.info("Please sign in to use wishlist"); navigate("/auth"); return; } toggleItem(product); }}
         >
           <Heart className={`h-3.5 w-3.5 sm:h-4 sm:w-4 ${isInWishlist(product.id) ? "fill-destructive text-destructive" : ""}`} />
         </Button>
