@@ -30,10 +30,14 @@ export default function AdminProducts() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (editingProduct) {
-      updateProduct(editingProduct.id, { ...form, originalPrice: form.originalPrice || undefined, brand: form.brand || undefined, productType: form.productType || undefined });
+      const sizesArr = form.sizes ? form.sizes.split(",").map(s => s.trim()).filter(Boolean) : undefined;
+      const colorsArr = form.colors ? form.colors.split(",").map(s => s.trim()).filter(Boolean) : undefined;
+      updateProduct(editingProduct.id, { ...form, originalPrice: form.originalPrice || undefined, brand: form.brand || undefined, productType: form.productType || undefined, sizes: sizesArr, colors: colorsArr });
       toast.success("Product updated!");
     } else {
-      addProduct({ ...form, originalPrice: form.originalPrice || undefined, brand: form.brand || undefined, productType: form.productType || undefined });
+      const sizesArr = form.sizes ? form.sizes.split(",").map(s => s.trim()).filter(Boolean) : undefined;
+      const colorsArr = form.colors ? form.colors.split(",").map(s => s.trim()).filter(Boolean) : undefined;
+      addProduct({ ...form, originalPrice: form.originalPrice || undefined, brand: form.brand || undefined, productType: form.productType || undefined, sizes: sizesArr, colors: colorsArr });
       toast.success("Product added!");
     }
     setIsOpen(false);
