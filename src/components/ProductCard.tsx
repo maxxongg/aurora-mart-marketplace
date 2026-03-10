@@ -72,7 +72,7 @@ export default function ProductCard({ product }: ProductCardProps) {
               <span className="text-[10px] sm:text-xs text-muted-foreground line-through ml-1 sm:ml-1.5">{c}{product.originalPrice.toFixed(2)}</span>
             )}
           </div>
-          <Button size="icon" className="h-7 w-7 sm:h-8 sm:w-8 gradient-primary border-0 text-primary-foreground shrink-0" onClick={() => addItem(product)}>
+          <Button size="icon" className="h-7 w-7 sm:h-8 sm:w-8 gradient-primary border-0 text-primary-foreground shrink-0" onClick={handleAddToCart}>
             <ShoppingCart className="h-3 w-3 sm:h-3.5 sm:w-3.5" />
           </Button>
         </div>

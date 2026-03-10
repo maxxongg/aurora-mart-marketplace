@@ -105,7 +105,7 @@ export default function Auth() {
         {/* Customer Panel */}
         {panel === "customer" && (
           <div className="bg-card border rounded-xl p-6">
-            <Tabs defaultValue="login">
+            <Tabs defaultValue={defaultTab === "register" ? "register" : "login"}>
               <TabsList className="w-full mb-6">
                 <TabsTrigger value="login" className="flex-1">Sign In</TabsTrigger>
                 <TabsTrigger value="register" className="flex-1">Register</TabsTrigger>
