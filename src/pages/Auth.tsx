@@ -49,7 +49,7 @@ export default function Auth() {
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
     const ok = await register(regName, regEmail, regPhone, regPass);
-    if (ok) { toast.success("Account created!"); navigate("/"); }
+    if (ok) { toast.success("Account created! You are now logged in."); navigate(redirectTo); }
   };
 
   const handleSellerLogin = async (e: React.FormEvent) => {
