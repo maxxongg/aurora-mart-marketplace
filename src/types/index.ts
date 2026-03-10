@@ -37,6 +37,18 @@ export interface Product {
   status: "active" | "draft" | "archived";
   rating: number;
   reviewCount: number;
+  sizes?: string[];
+  colors?: string[];
+  reviews?: Review[];
+  createdAt: string;
+}
+
+export interface Review {
+  id: string;
+  userId: string;
+  userName: string;
+  rating: number;
+  comment: string;
   createdAt: string;
 }
 

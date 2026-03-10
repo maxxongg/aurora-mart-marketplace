@@ -88,6 +88,10 @@ export default function AdminProducts() {
             </div>
             <div><Label>Image URL</Label><Input value={form.image} onChange={(e) => setForm({ ...form, image: e.target.value })} placeholder="https://..." /></div>
             <div><Label>Status</Label><Select value={form.status} onValueChange={(v: any) => setForm({ ...form, status: v })}><SelectTrigger><SelectValue /></SelectTrigger><SelectContent><SelectItem value="active">Active</SelectItem><SelectItem value="draft">Draft</SelectItem><SelectItem value="archived">Archived</SelectItem></SelectContent></Select></div>
+            <div className="grid grid-cols-2 gap-4">
+              <div><Label>Sizes (comma separated)</Label><Input value={form.sizes} onChange={(e) => setForm({ ...form, sizes: e.target.value })} placeholder="S, M, L, XL" /></div>
+              <div><Label>Colors (comma separated)</Label><Input value={form.colors} onChange={(e) => setForm({ ...form, colors: e.target.value })} placeholder="Red, Blue, Black" /></div>
+            </div>
             <div className="flex gap-6">
               <label className="flex items-center gap-2"><Checkbox checked={form.isFeatured} onCheckedChange={(c) => setForm({ ...form, isFeatured: !!c })} /><span className="text-sm">Featured</span></label>
               <label className="flex items-center gap-2"><Checkbox checked={form.isFlashSale} onCheckedChange={(c) => setForm({ ...form, isFlashSale: !!c })} /><span className="text-sm">Flash Sale</span></label>
